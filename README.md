@@ -55,9 +55,9 @@ Built and tested on an **Intel MacBook Pro (Core i7-8850H) with macOS 15.8.1**, 
 - the project's own suite: **113,181 checks pass** (`./build.sh --test`), including new checks for the Intel sensors;
 - the app's built-in `--selftest` passes;
 - the release build launches, and the screenshots above were taken from it: welcome flow, system monitor, power panel and settings;
-- by hand, on that Mac: the **window switcher with live previews** (⌘Tab), **window layout** shortcuts (e.g. ⌃⌥←), the **CPU temperature in the menu bar** and the **power panel** (battery, adapter, health).
+- by hand, on that Mac: the **window switcher with live previews** (⌘Tab), **window layout** shortcuts (e.g. ⌃⌥←), the **CPU temperature in the menu bar**, the **power panel** (battery, adapter, health), **Dock previews**, the **command bar** (calculator, unit conversion, app search) and the **scratchpad**.
 
-**Not tested:** the remaining features, in particular those that need Microphone, Camera or Full Disk Access, the Dynamic Island on a notchless Mac, the privileged fan-control helper, per-app audio routing, Bluetooth, display brightness, Dock previews, clipboard history, snippets, the shelf, the command bar and the cleaner/uninstaller. Treat those as unverified on Intel. Per-core CPU grouping is an Apple-Silicon-only code path and stays empty on Intel.
+**Not tested:** the remaining features, in particular those that need Microphone, Camera or Full Disk Access, the Dynamic Island on a notchless Mac, the privileged fan-control helper, per-app audio routing, Bluetooth, display brightness, clipboard history, snippets, the shelf, the colour picker, the URL cleaner and the cleaner/uninstaller. Treat those as unverified on Intel. Per-core CPU grouping is an Apple-Silicon-only code path and stays empty on Intel.
 
 ## Install (build from source)
 

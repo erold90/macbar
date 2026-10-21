@@ -46,7 +46,7 @@ enum NotchScreenRefreshContract {
         final class Workspace { var frontmostApplication: RunningApplication? }
     }
     enum Bundle {
-        static let main = RunningApplication(bundleIdentifier: "com.vorssaint.tests.notch")
+        static let main = RunningApplication(bundleIdentifier: "com.erold90.macbar.tests.notch")
     }
     enum ClipboardHistoryService {
         static let shared = History()
@@ -449,7 +449,7 @@ enum NotchScreenRefreshContract {
                "a display without a menu bar keeps the island at rest with nothing to measure or cover")
         pointerFollowContracts(suite)
 
-        let source = (try? String(contentsOfFile: "Sources/Vorssaint/Services/Notch/NotchService.swift",
+        let source = (try? String(contentsOfFile: "Sources/MacBar/Services/Notch/NotchService.swift",
                                   encoding: .utf8)) ?? ""
         let code = source.components(separatedBy: "\n")
             .map { line in line.range(of: "//").map { String(line[..<$0.lowerBound]) } ?? line }

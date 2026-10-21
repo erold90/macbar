@@ -146,15 +146,15 @@ enum SwitcherModelFeatureTests {
                 .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
                 .joined(separator: "\n")
         }
-        let switcher = code("Sources/Vorssaint/Services/Switcher/AppSwitcher.swift")
+        let switcher = code("Sources/MacBar/Services/Switcher/AppSwitcher.swift")
         suite.expect(switcher.contains("CGEventType.scrollWheel.rawValue") && switcher.contains("case .scrollWheel:"),
                      "the switcher subscribes to and handles scroll-wheel events")
-        for path in ["Sources/Vorssaint/Services/SmoothScrollService.swift",
-                     "Sources/Vorssaint/Services/MouseButtons/MouseButtonShortcutService.swift"] {
+        for path in ["Sources/MacBar/Services/SmoothScrollService.swift",
+                     "Sources/MacBar/Services/MouseButtons/MouseButtonShortcutService.swift"] {
             suite.expect(code(path).contains("AppSwitcher.shared.scrollNavigationActive"),
                          "\(path) yields scrolling to the open switcher")
         }
-        suite.expect(!code("Sources/Vorssaint/Services/ScrollInverter.swift").contains("AppSwitcher.shared.scrollNavigationActive"),
+        suite.expect(!code("Sources/MacBar/Services/ScrollInverter.swift").contains("AppSwitcher.shared.scrollNavigationActive"),
                      "scroll direction never stands aside for the open switcher")
         // Both wheel taps run after the switcher's session tap, so it applies
         // Scroll Direction itself, minus the apps excepted from it.
@@ -192,7 +192,7 @@ enum SwitcherModelFeatureTests {
         suite.expect(registeredDefaults[DefaultsKey.switcherWindowShortcut] as? String
                == GlobalShortcut.switcherWindowDefault.storageValue,
                "switcher window shortcut defaults to Cmd+Grave")
-        let shortcutSuite = "vorss.tests.switcher.shortcut"
+        let shortcutSuite = "macbar.tests.switcher.shortcut"
         if let migrationDefaults = UserDefaults(suiteName: shortcutSuite) {
             migrationDefaults.removePersistentDomain(forName: shortcutSuite)
             migrationDefaults.set("control+option+command:50", forKey: DefaultsKey.switcherWindowShortcut)
@@ -491,7 +491,7 @@ enum SwitcherModelFeatureTests {
         // scope must be assigned before the layout pass or a window-scoped
         // panel is sized for the grouped layout on its first frame.
         let switcherSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/AppSwitcher.swift",
+            contentsOfFile: "Sources/MacBar/Services/Switcher/AppSwitcher.swift",
             encoding: .utf8)) ?? ""
         // Ends on whatever declaration comes next rather than naming the
         // neighbour: a rename would find no separator, leave the slice running
@@ -526,7 +526,7 @@ enum SwitcherModelFeatureTests {
                                                                 windowRow: false),
                "App Switcher main shortcut steps through simple window rows without app grouping")
         let previewProviderCode = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/WindowPreviewProvider.swift",
+            contentsOfFile: "Sources/MacBar/Services/Switcher/WindowPreviewProvider.swift",
             encoding: .utf8)) ?? ""
         // The warm task itself may be detached (its image work must stay off
         // the main thread); what must never run on a shared task thread is the
@@ -650,7 +650,7 @@ enum SwitcherModelFeatureTests {
         // The bridge's window query cannot run here, so its answer must go
         // through that filter, and only on macOS 26 and later.
         let hiddenWithAppBody = ((try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/SpaceWindowBridge.swift",
+            contentsOfFile: "Sources/MacBar/Services/Switcher/SpaceWindowBridge.swift",
             encoding: .utf8)) ?? "")
             .components(separatedBy: "static func windowsHiddenWithApp(among windowIDs: [CGWindowID]) -> Set<CGWindowID>? {\n")
             .dropFirst().first?
@@ -812,7 +812,7 @@ enum SwitcherModelFeatureTests {
                && windowlessEntry.windowLabel(noOpenWindow: "No open window") == "No open window",
                "App Switcher preview labels name a window or explain that there is none")
         let dockIconBundle = FileManager.default.temporaryDirectory
-            .appendingPathComponent("vorssaint-dock-icon-\(UUID().uuidString).app")
+            .appendingPathComponent("macbar-dock-icon-\(UUID().uuidString).app")
         let dockIconResources = dockIconBundle.appendingPathComponent("Contents/Resources")
         try? FileManager.default.createDirectory(at: dockIconResources,
                                                  withIntermediateDirectories: true)
@@ -906,7 +906,7 @@ enum SwitcherModelFeatureTests {
                && !embeddedWindow.isMinimizedForPlacement(treatHiddenAppsLikeMinimized: true),
                "hidden apps follow minimized-window placement only when selected, while actual minimized windows always follow it")
         let placementCode = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/WindowEnumerator.swift",
+            contentsOfFile: "Sources/MacBar/Services/Switcher/WindowEnumerator.swift",
             encoding: .utf8)) ?? ""
         suite.expect(placementCode.contains("forKey: DefaultsKey.switcherTreatHiddenAppsLikeMinimized")
                && placementCode.contains("item.isMinimizedForPlacement(treatHiddenAppsLikeMinimized: treatHiddenAppsLikeMinimized)"),
@@ -1467,7 +1467,7 @@ enum SwitcherModelFeatureTests {
             .prefix(24)).map(\.id) == ["right"],
                "windows on other monitors cannot exhaust the local display's entry limit")
         let enumeratorCode = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/WindowEnumerator.swift",
+            contentsOfFile: "Sources/MacBar/Services/Switcher/WindowEnumerator.swift",
             encoding: .utf8)) ?? ""
         let displayFilter = enumeratorCode.range(of: "SwitcherSupport.itemsOnDisplay(filtered,")
         let grouping = enumeratorCode.range(of: "groupedByApp(orderedPrimary)")
@@ -1748,7 +1748,7 @@ enum SwitcherModelFeatureTests {
                                                                   DefaultsKey.monitorPwrTemperature,
                                                                   DefaultsKey.monitorSysBattery]),
                "preview appearance and moved battery visibility travel in settings backups")
-        let batteryVisibilitySuite = "com.vorssaint.tests.batteryVisibility.\(UUID().uuidString)"
+        let batteryVisibilitySuite = "com.erold90.macbar.tests.batteryVisibility.\(UUID().uuidString)"
         if let batteryVisibilityDefaults = UserDefaults(suiteName: batteryVisibilitySuite) {
             batteryVisibilityDefaults.removePersistentDomain(forName: batteryVisibilitySuite)
             batteryVisibilityDefaults.set(false, forKey: DefaultsKey.monitorSysTemps)
@@ -1922,7 +1922,7 @@ enum SwitcherModelFeatureTests {
         // gesture from an ordinary one -- which is the thing being fixed, so a
         // branch is what this guards against.
         let placeSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/WindowActivator.swift",
+            contentsOfFile: "Sources/MacBar/Services/Switcher/WindowActivator.swift",
             encoding: .utf8)) ?? ""
         let placeBody = (placeSource.components(separatedBy: "static func place(_ item: SwitcherItem")
             .last ?? "").components(separatedBy: "\n    @discardableResult").first ?? ""
@@ -1955,7 +1955,7 @@ enum SwitcherModelFeatureTests {
         // title both over the thumbnail and under it. In a panel every card
         // belongs to one app, so both said the same thing once per window.
         let dockPreviewCardSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Switcher/DockPreviewPanelView.swift",
+            contentsOfFile: "Sources/MacBar/UI/Switcher/DockPreviewPanelView.swift",
             encoding: .utf8)) ?? ""
         let dockPreviewCardCode = dockPreviewCardSource
             .split(separator: "\n", omittingEmptySubsequences: false)
@@ -2078,11 +2078,11 @@ enum SwitcherModelFeatureTests {
                && !SupportUpdateIntroInfo.shouldShow(appVersion: "3.4.1-beta.5", lastSeenVersion: nil)
                && !SupportUpdateIntroInfo.shouldShow(appVersion: "3.5.0", lastSeenVersion: nil),
                "support prompt never leaks into another release or a beta")
-        suite.expect(AppInfo.discordURL.absoluteString == "https://discord.gg/M6BwWH4BJp",
+        suite.expect(AppInfo.discordURL.absoluteString == "https://github.com/erold90/macbar",
                "the community action uses the permanent Discord invitation")
-        suite.expect(AppInfo.coffeeURL.absoluteString == "https://buymeacoffee.com/vorssaint",
+        suite.expect(AppInfo.coffeeURL.absoluteString == "https://github.com/erold90/macbar",
                "financial support uses Buy Me a Coffee")
-        suite.expect(AppInfo.socialURL.absoluteString == "https://x.com/vorssaint",
+        suite.expect(AppInfo.socialURL.absoluteString == "https://github.com/erold90",
                "social previews keep the official X profile")
         // AppInfo.version falls back to "dev" in this bare harness, so read
         // the plist the shipped app will actually carry. The pin is a
@@ -2396,13 +2396,13 @@ enum SwitcherModelFeatureTests {
                "an app the person switched to while the panel was open keeps activation")
         suite.expect(!StatusItemAnchorSupport.shouldReturnActivation(to: 501, ownPID: 900, frontmostPID: 900,
                                                                      ownWindowIsKey: true, closeReason: .escape),
-               "a Vorssaint window that took focus from the panel keeps Vorssaint active")
+               "a MacBar window that took focus from the panel keeps MacBar active")
         suite.expect(!StatusItemAnchorSupport.shouldReturnActivation(to: nil, ownPID: 900, frontmostPID: 900,
                                                                      ownWindowIsKey: false, closeReason: .escape),
-               "a panel opened while Vorssaint was already in front has nothing to hand back")
+               "a panel opened while MacBar was already in front has nothing to hand back")
         suite.expect(!StatusItemAnchorSupport.shouldReturnActivation(to: 900, ownPID: 900, frontmostPID: 900,
                                                                      ownWindowIsKey: false, closeReason: .escape),
-               "Vorssaint never hands activation back to itself")
+               "MacBar never hands activation back to itself")
         suite.expect(!StatusItemAnchorSupport.shouldReturnActivation(to: 501, ownPID: 900, frontmostPID: nil,
                                                                      ownWindowIsKey: false, closeReason: .escape),
                "no known frontmost app means nothing is taken from anyone")
@@ -2416,7 +2416,7 @@ enum SwitcherModelFeatureTests {
         }
         suite.expect(!StatusItemAnchorSupport.shouldReturnActivation(to: 501, ownPID: 900, frontmostPID: 900,
                                                                      ownWindowIsKey: false, closeReason: nil),
-               "a close Vorssaint did not ask for leaves activation alone")
+               "a close MacBar did not ask for leaves activation alone")
 
         let showing: Set<UInt64> = [3, 7]
         suite.expect(StatusItemAnchorSupport.handbackWouldSwitchDesktop(windowSpaces: [[1], [2]],
@@ -2444,7 +2444,7 @@ enum SwitcherModelFeatureTests {
                "another app becoming active while the panel is open replaces the remembered app")
         suite.expect(StatusItemAnchorSupport.panelActivationSource(after: .appActivated(900), current: 501,
                                                                    isOwnApp: ownApp) == 501,
-               "Vorssaint taking activation back from the panel keeps the remembered app")
+               "MacBar taking activation back from the panel keeps the remembered app")
         suite.expect(StatusItemAnchorSupport.panelActivationSource(after: .appActivated(777), current: nil,
                                                                    isOwnApp: ownApp) == 777,
                "an app activated after the remembered one was dropped becomes the one to return to")
@@ -2491,7 +2491,7 @@ enum SwitcherModelFeatureTests {
         // These AppKit owners are not part of the pure-helper test binary, so
         // pin that neither caller can consume a parked status-item frame.
         let statusAnchorAppDelegateSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/App/AppDelegate.swift",
+            contentsOfFile: "Sources/MacBar/App/AppDelegate.swift",
             encoding: .utf8)) ?? ""
         let stripCommentLines: (String) -> String = {
             $0.split(separator: "\n", omittingEmptySubsequences: false)
@@ -2505,7 +2505,7 @@ enum SwitcherModelFeatureTests {
             .components(separatedBy: "ShelfService.shared.statusItemFrameProvider =").last ?? "")
             .components(separatedBy: "\n        }").first ?? "")
         let statusControllerSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/App/StatusItemController.swift",
+            contentsOfFile: "Sources/MacBar/App/StatusItemController.swift",
             encoding: .utf8)) ?? ""
         let statusHitTestCode = stripCommentLines((statusControllerSource
             .components(separatedBy: "func containsStatusItem(at screenPoint: NSPoint) -> Bool {").last ?? "")
@@ -2531,7 +2531,7 @@ enum SwitcherModelFeatureTests {
         suite.expect(popoverSetUpCode.contains("popover.hasFullSizeContent = PanelSurface.popoverHostsFullSizeContent"),
                "the panel is hosted across the whole popover, arrow band included, where AppKit supports it")
         let panelThemeSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Theme.swift",
+            contentsOfFile: "Sources/MacBar/UI/Theme.swift",
             encoding: .utf8)) ?? ""
         // macOS 15 publishes the full-size safe area but leaves the view at its
         // content size in the frame's corner, so the popover grows and shows a
@@ -2562,7 +2562,7 @@ enum SwitcherModelFeatureTests {
                    && insetSurfaceCode.contains(".strokeBorder(PanelSurface.border(for: colorScheme)"),
                "an inset panel is a rounded, rimmed card inside the balloon")
         let panelViewSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/MenuPanel/MenuPanelView.swift",
+            contentsOfFile: "Sources/MacBar/UI/MenuPanel/MenuPanelView.swift",
             encoding: .utf8)) ?? ""
         let panelBodyCode: (String) -> String = { header in
             stripCommentLines((panelViewSource.components(separatedBy: header).last ?? "")
@@ -2619,11 +2619,11 @@ enum SwitcherModelFeatureTests {
                "a screen too short for the panel still shows its top")
         suite.expect(registeredDefaults[DefaultsKey.menuBarHideIconWithMetrics] as? Bool == false,
                "the menu bar icon stays visible by default")
-        suite.expect(MenuBarSpacingSupport.keepAwakeSignals(active: true, tint: .orange, style: .vorssaint)
+        suite.expect(MenuBarSpacingSupport.keepAwakeSignals(active: true, tint: .orange, style: .macbar)
                      && MenuBarSpacingSupport.keepAwakeSignals(active: true, tint: .none, style: .coffee),
                "an active Keep Awake brings back the glyph that shows it")
         suite.expect(!MenuBarSpacingSupport.keepAwakeSignals(active: false, tint: .orange, style: .coffee)
-                     && !MenuBarSpacingSupport.keepAwakeSignals(active: true, tint: .none, style: .vorssaint),
+                     && !MenuBarSpacingSupport.keepAwakeSignals(active: true, tint: .none, style: .macbar),
                "nothing returns while Keep Awake is off, or when its active glyph looks the same as the idle one")
         // Both hide decisions and the title's leading space ask it, and an open
         // panel holds it: the returning glyph widens the item, and a separate
@@ -2706,7 +2706,7 @@ enum SwitcherModelFeatureTests {
         // back to the app.
         suite.expect(registeredDefaults[DefaultsKey.notchHidesMenuBarIcon] as? Bool == false,
                "Dynamic Island only takes the icon's place when asked")
-        let islandIconSuite = "com.vorssaint.tests.islandMenuBarIcon"
+        let islandIconSuite = "com.erold90.macbar.tests.islandMenuBarIcon"
         if let islandDefaults = UserDefaults(suiteName: islandIconSuite) {
             islandDefaults.removePersistentDomain(forName: islandIconSuite)
             defer { islandDefaults.removePersistentDomain(forName: islandIconSuite) }
@@ -2770,19 +2770,19 @@ enum SwitcherModelFeatureTests {
                                                                   showsCountdown: true,
                                                                   hasEndDate: false),
                "idle, hidden and indefinite Keep Awake titles need no timer")
-        let statusPlacementSuite = "com.vorssaint.tests.statusItemPlacement"
+        let statusPlacementSuite = "com.erold90.macbar.tests.statusItemPlacement"
         if let statusDefaults = UserDefaults(suiteName: statusPlacementSuite) {
             statusDefaults.removePersistentDomain(forName: statusPlacementSuite)
             suite.expect(StatusItemPlacementSupport.placementGeneration(in: statusDefaults) == 0,
                    "initial placement generation is 0")
-            suite.expect(StatusItemPlacementSupport.mainAutosaveName(in: statusDefaults) == "VorssaintMenuBarItem",
+            suite.expect(StatusItemPlacementSupport.mainAutosaveName(in: statusDefaults) == "MacBarMenuBarItem",
                    "generation 0 uses base autosave name")
 
             // The coordinate macOS saves for the icon is what puts it back in
             // the same spot on the next launch. 3.3.3 deleted the one written
             // by the older recovery on every launch, which moved the icon to
             // where a first-time item goes and, on a full bar, out of sight.
-            let legacyKey = "NSStatusItem Preferred Position VorssaintMenuBarItem"
+            let legacyKey = "NSStatusItem Preferred Position MacBarMenuBarItem"
             statusDefaults.set(64.0, forKey: legacyKey)
             StatusItemPlacementSupport.clearRememberedVisibility(in: statusDefaults)
             suite.expect(statusDefaults.double(forKey: legacyKey) == 64.0,
@@ -2795,29 +2795,29 @@ enum SwitcherModelFeatureTests {
 
             StatusItemPlacementSupport.bumpPlacementGeneration(in: statusDefaults)
             let gen1Name = StatusItemPlacementSupport.mainAutosaveName(in: statusDefaults)
-            suite.expect(gen1Name == "VorssaintMenuBarItem.1",
+            suite.expect(gen1Name == "MacBarMenuBarItem.1",
                    "bumped generation produces numbered autosave name")
-            suite.expect(statusDefaults.object(forKey: "NSStatusItem Preferred Position VorssaintMenuBarItem.1") == nil,
+            suite.expect(statusDefaults.object(forKey: "NSStatusItem Preferred Position MacBarMenuBarItem.1") == nil,
                    "a reset lets macOS place the full item without a machine-specific position")
-            suite.expect(statusDefaults.object(forKey: "NSStatusItem Preferred Position VorssaintMenuBarItem") == nil,
+            suite.expect(statusDefaults.object(forKey: "NSStatusItem Preferred Position MacBarMenuBarItem") == nil,
                    "bumping drops the previous identity's preferred position")
 
             // Recovery keeps the spot the person arranged and only drops the
             // hidden state macOS remembered: an item that starts over with no
             // saved position is born against the notch, the first place a
             // crowded bar hides.
-            let gen1Position = "NSStatusItem Preferred Position VorssaintMenuBarItem.1"
+            let gen1Position = "NSStatusItem Preferred Position MacBarMenuBarItem.1"
             statusDefaults.set(280.0, forKey: gen1Position)
-            statusDefaults.set(false, forKey: "NSStatusItem Visible VorssaintMenuBarItem.1")
-            statusDefaults.set(false, forKey: "NSStatusItem VisibleCC VorssaintMenuBarItem.1")
+            statusDefaults.set(false, forKey: "NSStatusItem Visible MacBarMenuBarItem.1")
+            statusDefaults.set(false, forKey: "NSStatusItem VisibleCC MacBarMenuBarItem.1")
             StatusItemPlacementSupport.clearRememberedVisibility(in: statusDefaults)
             suite.expect(statusDefaults.double(forKey: gen1Position) == 280.0,
                    "clearing the remembered visibility keeps the arranged position")
             suite.expect(StatusItemPlacementSupport.placementGeneration(in: statusDefaults) == 1
                     && StatusItemPlacementSupport.mainAutosaveName(in: statusDefaults) == gen1Name,
                    "recovery leaves the item's identity alone, so reopening cannot churn it")
-            suite.expect(statusDefaults.object(forKey: "NSStatusItem Visible VorssaintMenuBarItem.1") == nil
-                    && statusDefaults.object(forKey: "NSStatusItem VisibleCC VorssaintMenuBarItem.1") == nil,
+            suite.expect(statusDefaults.object(forKey: "NSStatusItem Visible MacBarMenuBarItem.1") == nil
+                    && statusDefaults.object(forKey: "NSStatusItem VisibleCC MacBarMenuBarItem.1") == nil,
                    "clearing the remembered visibility drops both spellings macOS has used")
 
             // Giving the spot up is what an explicit recovery escalates to,
@@ -2827,28 +2827,28 @@ enum SwitcherModelFeatureTests {
                    "only the identity reset gives up a saved position")
             // Leave orphan keys for older generations the way a long-running
             // install accumulates them, then confirm a bump sweeps them.
-            statusDefaults.set(11.0, forKey: "NSStatusItem Preferred Position VorssaintMenuBarItem")
-            statusDefaults.set(false, forKey: "NSStatusItem Visible VorssaintMenuBarItem")
-            statusDefaults.set(false, forKey: "NSStatusItem VisibleCC VorssaintMenuBarItem.1")
-            let metricPosition = "NSStatusItem Preferred Position VorssaintMetric.cpu"
+            statusDefaults.set(11.0, forKey: "NSStatusItem Preferred Position MacBarMenuBarItem")
+            statusDefaults.set(false, forKey: "NSStatusItem Visible MacBarMenuBarItem")
+            statusDefaults.set(false, forKey: "NSStatusItem VisibleCC MacBarMenuBarItem.1")
+            let metricPosition = "NSStatusItem Preferred Position MacBarMetric.cpu"
             statusDefaults.set(42.0, forKey: metricPosition)
             StatusItemPlacementSupport.bumpPlacementGeneration(in: statusDefaults)
             suite.expect(statusDefaults.object(forKey: gen1Position) == nil
-                    && statusDefaults.object(forKey: "NSStatusItem Preferred Position VorssaintMenuBarItem") == nil
-                    && statusDefaults.object(forKey: "NSStatusItem Visible VorssaintMenuBarItem") == nil
-                    && statusDefaults.object(forKey: "NSStatusItem VisibleCC VorssaintMenuBarItem.1") == nil
+                    && statusDefaults.object(forKey: "NSStatusItem Preferred Position MacBarMenuBarItem") == nil
+                    && statusDefaults.object(forKey: "NSStatusItem Visible MacBarMenuBarItem") == nil
+                    && statusDefaults.object(forKey: "NSStatusItem VisibleCC MacBarMenuBarItem.1") == nil
                     && StatusItemPlacementSupport.mainAutosaveName(in: statusDefaults)
-                        == "VorssaintMenuBarItem.2"
-                    && statusDefaults.object(forKey: "NSStatusItem Preferred Position VorssaintMenuBarItem.2") == nil,
+                        == "MacBarMenuBarItem.2"
+                    && statusDefaults.object(forKey: "NSStatusItem Preferred Position MacBarMenuBarItem.2") == nil,
                    "the identity reset gives the saved position up and sweeps orphaned identities")
             suite.expect(statusDefaults.double(forKey: metricPosition) == 42.0,
                    "recovering the main item leaves metric-item positions alone")
             statusDefaults.set(StatusItemPlacementSupport.maxPlacementGeneration,
                                forKey: DefaultsKey.statusItemPlacementGeneration)
-            statusDefaults.set(false, forKey: "NSStatusItem Visible VorssaintMenuBarItem.9999")
+            statusDefaults.set(false, forKey: "NSStatusItem Visible MacBarMenuBarItem.9999")
             StatusItemPlacementSupport.bumpPlacementGeneration(in: statusDefaults)
-            suite.expect(StatusItemPlacementSupport.mainAutosaveName(in: statusDefaults) == "VorssaintMenuBarItem.1"
-                    && statusDefaults.object(forKey: "NSStatusItem Visible VorssaintMenuBarItem.9999") == nil
+            suite.expect(StatusItemPlacementSupport.mainAutosaveName(in: statusDefaults) == "MacBarMenuBarItem.1"
+                    && statusDefaults.object(forKey: "NSStatusItem Visible MacBarMenuBarItem.9999") == nil
                     && statusDefaults.double(forKey: metricPosition) == 42.0,
                    "generation wrap clears old main-item state without touching metric placements")
             suite.expect(StatusItemAnchorSupport.isSettlingStatusFrame(CGRect(x: 0, y: 0, width: 36, height: 0)),
@@ -3001,13 +3001,13 @@ enum SwitcherModelFeatureTests {
             return [["bundle": ["_0": bundleID]], entry]
         }
         let trackedApplications: [Any] = tracked("com.lowtechguys.Clop", allowed: true)
-            + tracked("com.vorssaint.utils", allowed: false)
-            + tracked("com.vorssaint.utils.dev", allowed: true)
+            + tracked("com.erold90.macbar", allowed: false)
+            + tracked("com.erold90.macbar.dev", allowed: true)
             + tracked("com.example.legacy", allowed: nil)
-        suite.expect(MenuBarAllowanceSupport.allowance(forBundleID: "com.vorssaint.utils",
+        suite.expect(MenuBarAllowanceSupport.allowance(forBundleID: "com.erold90.macbar",
                                                        trackedApplications: trackedApplications) == .disallowed,
                "an app switched off under Allow in the Menu Bar reads as disallowed")
-        suite.expect(MenuBarAllowanceSupport.allowance(forBundleID: "com.vorssaint.utils.dev",
+        suite.expect(MenuBarAllowanceSupport.allowance(forBundleID: "com.erold90.macbar.dev",
                                                        trackedApplications: trackedApplications) == .allowed,
                "a sibling bundle id with its own entry does not bleed over")
         suite.expect(MenuBarAllowanceSupport.allowance(forBundleID: "com.example.legacy",
@@ -3016,7 +3016,7 @@ enum SwitcherModelFeatureTests {
         suite.expect(MenuBarAllowanceSupport.allowance(forBundleID: "com.example.absent",
                                                        trackedApplications: trackedApplications) == .unknown,
                "an app Control Center has never tracked is unknown")
-        suite.expect(MenuBarAllowanceSupport.allowance(forBundleID: "com.vorssaint.utils",
+        suite.expect(MenuBarAllowanceSupport.allowance(forBundleID: "com.erold90.macbar",
                                                        trackedApplications: ["garbage", 3]) == .unknown,
                "a malformed store is unknown rather than a crash or a verdict")
         // The on-disk shape: an outer plist whose trackedApplications value is
@@ -3029,10 +3029,10 @@ enum SwitcherModelFeatureTests {
                                                 format: .binary, options: 0)
         }
         suite.expect(outerData.map {
-                MenuBarAllowanceSupport.allowance(forBundleID: "com.vorssaint.utils", groupContainerPlist: $0)
+                MenuBarAllowanceSupport.allowance(forBundleID: "com.erold90.macbar", groupContainerPlist: $0)
             } == .disallowed,
                "the nested Control Center store decodes down to the per-app verdict")
-        suite.expect(MenuBarAllowanceSupport.allowance(forBundleID: "com.vorssaint.utils",
+        suite.expect(MenuBarAllowanceSupport.allowance(forBundleID: "com.erold90.macbar",
                                                        groupContainerPlist: Data([0x00, 0x01])) == .unknown,
                "an unreadable store is unknown")
         let verifyIconCode = stripCommentLines((statusAnchorAppDelegateSource
@@ -3201,7 +3201,7 @@ enum SwitcherModelFeatureTests {
                "battery time is shown in the Power panel by default")
         suite.expect(registeredDefaults[DefaultsKey.monitorPwrPeripherals] as? Bool == false,
                "peripheral batteries stay out of the Power card until turned on")
-        let peripheralsSuite = "com.vorssaint.tests.powerPeripherals.\(UUID().uuidString)"
+        let peripheralsSuite = "com.erold90.macbar.tests.powerPeripherals.\(UUID().uuidString)"
         if let peripheralsDefaults = UserDefaults(suiteName: peripheralsSuite) {
             peripheralsDefaults.removePersistentDomain(forName: peripheralsSuite)
             peripheralsDefaults.set(false, forKey: DefaultsKey.menuBarPeripheralBattery)
@@ -3421,7 +3421,7 @@ enum SwitcherModelFeatureTests {
         suite.expect(rightFrame.maxX < 1360,
                "Dock Preview right panel sits to the left of the Dock")
         let dockPreviewServiceSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/DockPreview/DockPreviewService.swift",
+            contentsOfFile: "Sources/MacBar/Services/DockPreview/DockPreviewService.swift",
             encoding: .utf8)) ?? ""
         let dockPreviewServiceCode = dockPreviewServiceSource
             .split(separator: "\n", omittingEmptySubsequences: false)
@@ -3476,12 +3476,12 @@ enum SwitcherModelFeatureTests {
         // Both panels show windows of the same kind, so a name too long for its
         // room behaves the same in each. One view, two callers, two widths.
         let scrollingTitleSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Switcher/ScrollingTitle.swift",
+            contentsOfFile: "Sources/MacBar/UI/Switcher/ScrollingTitle.swift",
             encoding: .utf8)) ?? ""
         suite.expect(scrollingTitleSource.contains("struct ScrollingTitle: View"),
                "the scrolling name is one view, not a copy in each panel")
         let switcherCardSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Switcher/SwitcherView.swift",
+            contentsOfFile: "Sources/MacBar/UI/Switcher/SwitcherView.swift",
             encoding: .utf8)) ?? ""
         suite.expect(switcherCardSource.contains("ScrollingTitle(")
                && dockPreviewCardSource.contains("ScrollingTitle("),
@@ -3879,7 +3879,7 @@ enum SwitcherModelFeatureTests {
         } else {
             UserDefaults.standard.removeObject(forKey: DefaultsKey.switcherPreviewSize)
         }
-        let previewSizeSuite = "com.vorssaint.tests.switcher-preview-size.\(UUID().uuidString)"
+        let previewSizeSuite = "com.erold90.macbar.tests.switcher-preview-size.\(UUID().uuidString)"
         if let previewSizeDefaults = UserDefaults(suiteName: previewSizeSuite) {
             previewSizeDefaults.set("large", forKey: DefaultsKey.previewSize)
             Defaults.migrateSwitcherPreviewSize(in: previewSizeDefaults)
@@ -3898,7 +3898,7 @@ enum SwitcherModelFeatureTests {
                    "a Dock Preview size chosen after the first launch leaves the switcher at its default size")
             previewSizeDefaults.removePersistentDomain(forName: previewSizeSuite)
         }
-        let excludedAppsSuite = "com.vorssaint.tests.switcher-preview-excluded-apps.\(UUID().uuidString)"
+        let excludedAppsSuite = "com.erold90.macbar.tests.switcher-preview-excluded-apps.\(UUID().uuidString)"
         if let excludedAppsDefaults = UserDefaults(suiteName: excludedAppsSuite) {
             excludedAppsDefaults.set(["com.example.vault"], forKey: DefaultsKey.windowPreviewExcludedApps)
             Defaults.migrateSwitcherPreviewExcludedApps(in: excludedAppsDefaults)
@@ -4149,7 +4149,7 @@ enum SwitcherModelFeatureTests {
         // rather than the bare call it replaced. Asserted positively: the call
         // it must not use is named in the doc comment right above it.
         let dockClickSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/DockClick/DockClickService.swift",
+            contentsOfFile: "Sources/MacBar/Services/DockClick/DockClickService.swift",
             encoding: .utf8)) ?? ""
         suite.expect(dockClickSource.contains("ActivationHandoff.yield(to: app)"),
                "a Dock click restore yields this app's activation first")
@@ -4160,7 +4160,7 @@ enum SwitcherModelFeatureTests {
         // and every yield goes through it. A bare yield added on a new path
         // would bring the refused-handoff bug back on that path alone.
         let activationHandoffSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/ActivationHandoff.swift",
+            contentsOfFile: "Sources/MacBar/Services/ActivationHandoff.swift",
             encoding: .utf8)) ?? ""
         let selfActivation = activationHandoffSource.range(of: "NSApp.activate(ignoringOtherApps: true)")
         let yieldOnward = activationHandoffSource.range(of: "NSApp.yieldActivation(to: app)")
@@ -4172,9 +4172,9 @@ enum SwitcherModelFeatureTests {
                 && handoffStamp!.lowerBound < selfActivation!.lowerBound,
                "the activation handoff stamps the self-activation before asking for it")
         // Only the activation the handoff caused stays out of the history; the
-        // Dock icon, Settings and Vorssaint's own windows are real uses.
+        // Dock icon, Settings and MacBar's own windows are real uses.
         let useTrackerSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/WindowUseTracker.swift",
+            contentsOfFile: "Sources/MacBar/Services/Switcher/WindowUseTracker.swift",
             encoding: .utf8)) ?? ""
         suite.expect(useTrackerSource.contains(
                    "pid == ProcessInfo.processInfo.processIdentifier && ActivationHandoff.isHandingOff"),
@@ -4394,8 +4394,8 @@ enum SwitcherModelFeatureTests {
                "a click after hiding lets the Dock bring the app back")
         suite.expect(DockClickSupport.repeatDecision(lastAction: .hide, elapsed: 0.1) == .swallow,
                "an accidental double-click never hides and immediately reopens the app")
-        suite.expect(DockClickSupport.isOwnBundleIdentifier("com.vorssaint.utils")
-                && DockClickSupport.isOwnBundleIdentifier("com.vorssaint.utils.dev")
+        suite.expect(DockClickSupport.isOwnBundleIdentifier("com.erold90.macbar")
+                && DockClickSupport.isOwnBundleIdentifier("com.erold90.macbar.dev")
                 && !DockClickSupport.isOwnBundleIdentifier("com.example.editor")
                 && !DockClickSupport.isOwnBundleIdentifier(nil),
                "Dock clicks never target either build of this app")
@@ -4529,7 +4529,7 @@ enum SwitcherModelFeatureTests {
                && DockPreviewSupport.mouseMoveSampleInterval < DockPreviewSupport.switchDelay,
                "Dock Preview samples high-rate mouse movement faster than hover intent")
         let dockPreviewSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/DockPreview/DockPreviewService.swift",
+            contentsOfFile: "Sources/MacBar/Services/DockPreview/DockPreviewService.swift",
             encoding: .utf8)) ?? ""
         suite.expect(dockPreviewSource.contains("DockClickSupport.dockOwnsPoint("),
                "Dock Preview does not open through fullscreen content covering the Dock")
@@ -5880,7 +5880,7 @@ enum SwitcherModelFeatureTests {
         // new in exactly the race the guard exists for. Comments are stripped
         // first, so the one explaining that lag cannot satisfy the check.
         let activatorSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/WindowActivator.swift",
+            contentsOfFile: "Sources/MacBar/Services/Switcher/WindowActivator.swift",
             encoding: .utf8)) ?? ""
         let activatorCode = activatorSource
             .components(separatedBy: "\n")
@@ -5915,7 +5915,7 @@ enum SwitcherModelFeatureTests {
         suite.expect(activatorCode.contains("activate(item, retry: retry, handoffSourcePID: handoffSourcePID)"),
                "activation by pid forwards its source only as a handoff")
         let dockPreviewActivationCode = ((try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/DockPreview/DockPreviewService.swift",
+            contentsOfFile: "Sources/MacBar/Services/DockPreview/DockPreviewService.swift",
             encoding: .utf8)) ?? "")
             .components(separatedBy: "\n")
             .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
@@ -5931,7 +5931,7 @@ enum SwitcherModelFeatureTests {
                "Dock Preview passes the frontmost app only as a focus handoff source")
         let commandBarWindowActivate: String = {
             let source = ((try? String(
-                contentsOfFile: "Sources/Vorssaint/Services/CommandBar/CommandBarCatalog.swift",
+                contentsOfFile: "Sources/MacBar/Services/CommandBar/CommandBarCatalog.swift",
                 encoding: .utf8)) ?? "")
                 .components(separatedBy: "\n")
                 .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
@@ -5951,7 +5951,7 @@ enum SwitcherModelFeatureTests {
                "Command Bar captures its handoff source before the activation beat")
         let commitSessionCode: String = {
             let source = ((try? String(
-                contentsOfFile: "Sources/Vorssaint/Services/Switcher/AppSwitcher.swift",
+                contentsOfFile: "Sources/MacBar/Services/Switcher/AppSwitcher.swift",
                 encoding: .utf8)) ?? "")
                 .components(separatedBy: "\n")
                 .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
@@ -5998,7 +5998,7 @@ enum SwitcherModelFeatureTests {
         suite.expect(hopGuard != nil && hopRaise != nil && hopGuard!.lowerBound < hopRaise!,
                "the hop's arrival pass consults the retry guard before it raises the target")
         let spaceHopCode = ((try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Switcher/SpaceHop.swift",
+            contentsOfFile: "Sources/MacBar/Services/Switcher/SpaceHop.swift",
             encoding: .utf8)) ?? "")
             .components(separatedBy: "\n")
             .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
@@ -6651,7 +6651,7 @@ enum SwitcherModelFeatureTests {
                "App Switcher leaves unrelated middle-mouse-up events alone")
         let searchRecords = [
             SwitcherSearchRecord(id: "alpha", title: "Inbox", appName: "Alpha"),
-            SwitcherSearchRecord(id: "beta", title: "Vorssaint Roadmap", appName: "Beta"),
+            SwitcherSearchRecord(id: "beta", title: "MacBar Roadmap", appName: "Beta"),
             SwitcherSearchRecord(id: "gamma", title: "Café notes", appName: "Gamma"),
         ]
         suite.expect(SwitcherSupport.filteredSearchIDs(records: searchRecords, query: "") == ["alpha", "beta", "gamma"],

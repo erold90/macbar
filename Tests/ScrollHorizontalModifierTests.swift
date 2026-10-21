@@ -35,12 +35,12 @@ enum ScrollHorizontalModifierTests {
         let diagonal = wheel(flags: [])
         diagonal.setIntegerValueField(.scrollWheelEventDeltaAxis2, value: 1)
         suite.expect(!ScrollWheelSupport.isVerticalOnly(diagonal), "a wheel with its own sideways axis is left alone")
-        let source = (try? String(contentsOfFile: "Sources/Vorssaint/Services/HorizontalWheelScrolling.swift",
+        let source = (try? String(contentsOfFile: "Sources/MacBar/Services/HorizontalWheelScrolling.swift",
                                   encoding: .utf8)) ?? ""
         suite.expect(source.contains("ScrollWheelSupport.isMouseWheel(")
             && source.contains(".intersection([.command, .option, .control, .shift]).isEmpty"),
             "trackpads and modifier combinations keep their own sideways meaning")
-        let panelSource = (try? String(contentsOfFile: "Sources/Vorssaint/Services/Notch/NotchWindowHost.swift",
+        let panelSource = (try? String(contentsOfFile: "Sources/MacBar/Services/Notch/NotchWindowHost.swift",
                                        encoding: .utf8)) ?? ""
         suite.expect(source.contains("guard !(event.window is NotchPanel)")
             && panelSource.contains("handleScroll?(event) == true || HorizontalWheelScrolling.handle(event)"),

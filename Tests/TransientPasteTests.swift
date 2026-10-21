@@ -7,7 +7,7 @@ import CoreGraphics
 /// Runs the production paste and restore sequence on a private pasteboard.
 /// Held modifiers and key delivery are simulated; no system keys are posted.
 enum TransientPasteTests {
-    static let pasteboard = NSPasteboard(name: NSPasteboard.Name("VorssaintTransientPasteTests-" + UUID().uuidString))
+    static let pasteboard = NSPasteboard(name: NSPasteboard.Name("MacBarTransientPasteTests-" + UUID().uuidString))
 
     enum CGEventSource {
         static var held: CGEventFlags = []

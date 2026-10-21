@@ -51,7 +51,7 @@ struct ClipboardHistoryAccessTests {
         let clock = TestClock()
         let deadlines = ManualDeadlineScheduler(clock: clock)
         let lane = GeneralPasteboardAccess(
-            label: "Vorssaint.Tests.ClipboardDeadline",
+            label: "MacBar.Tests.ClipboardDeadline",
             now: clock.read,
             scheduleDeadline: deadlines.schedule
         )

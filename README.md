@@ -1,72 +1,82 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/logo-dark.svg">
-    <img src="docs/assets/readme/logo.svg" width="220" alt="Vorssaint logo">
-  </picture>
+  <img src="docs/assets/icon.png" width="128" alt="MacBar icon">
 </p>
 
-<h1 align="center">Vorssaint</h1>
+<h1 align="center">MacBar</h1>
 
 <p align="center">
-  One menu bar icon doing the job of a dozen paid Mac apps.<br>
-  Install only what you use.
+  One menu bar icon doing the job of a dozen small Mac utilities.<br>
+  <strong>An Intel-friendly fork</strong> of <a href="https://github.com/vorssaint/vorssaint-utils">Vorssaint</a>.
 </p>
 
 <p align="center">
-  <a href="https://vorssaint.com">Website</a> ·
-  <a href="#install">Install</a> ·
-  <a href="#everything-it-does">Features</a> ·
-  <a href="#private-by-default">Privacy</a> ·
-  <a href="CHANGELOG.md">Changelog</a> ·
-  <a href="mailto:hello@vorssaint.com">Contact</a> ·
-  <a href="https://discord.gg/M6BwWH4BJp">Discord</a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/vorssaint/vorssaint-utils/releases"><img src="https://img.shields.io/github/v/release/vorssaint/vorssaint-utils?label=release&color=4c8dff" alt="Latest release"></a>
-  <a href="https://github.com/vorssaint/vorssaint-utils/releases"><img src="https://img.shields.io/github/downloads/vorssaint/vorssaint-utils/total?color=4c8dff" alt="Downloads"></a>
-  <a href="https://github.com/vorssaint/vorssaint-utils/actions/workflows/ci.yml"><img src="https://github.com/vorssaint/vorssaint-utils/actions/workflows/ci.yml/badge.svg?branch=main&event=push" alt="CI status"></a>
-  <a href="#what-you-need"><img src="https://img.shields.io/badge/macOS-14%2B%20Apple%20Silicon-black" alt="macOS 14 and newer, Apple Silicon"></a>
+  <img src="https://img.shields.io/badge/macOS-14%2B-black" alt="macOS 14 and newer">
+  <img src="https://img.shields.io/badge/Intel-x86__64-0071c5" alt="Intel x86_64">
+  <img src="https://img.shields.io/badge/Apple%20Silicon-upstream%20target%2C%20not%20tested%20here-lightgrey" alt="Apple Silicon: the upstream target, not tested here">
+  <img src="https://img.shields.io/badge/Swift-6.1-orange" alt="Swift 6.1">
+  <img src="https://img.shields.io/badge/tests-113%2C181%20checks%20passing-brightgreen" alt="113,181 checks passing">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0--or--later-blue" alt="License GPL 3.0 or later"></a>
 </p>
 
 <p align="center">
-  <a href="https://buymeacoffee.com/vorssaint">
-    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" width="217" height="60" alt="Buy Me a Coffee">
-  </a>
+  <img src="docs/assets/demo.gif" width="720" alt="A tour of MacBar: welcome, feature picker, system monitor, power panel and settings">
 </p>
+
+Per-app volume, a real system monitor, a better app switcher, window snapping, Dock previews, clipboard history, text snippets, a file shelf and an uninstaller, together behind a single menu bar icon — with no account, no telemetry and no subscription. Install only the features you use.
+
+> **Unofficial fork.** MacBar is not affiliated with or endorsed by the Vorssaint project; it is a modified copy under the same licence (GPL-3.0-or-later). [NOTICE.md](NOTICE.md) lists exactly what changed.
+
+## Screenshots
 
 <p align="center">
-  For anything private, email
-  <a href="mailto:hello@vorssaint.com"><strong>hello@vorssaint.com</strong></a>.
+  <img src="docs/assets/screens/monitor.png" width="250" alt="System monitor panel showing CPU temperature, hardware usage and memory">
+  <img src="docs/assets/screens/power.png" width="250" alt="Power panel with battery, battery temperature, system power and adapter">
 </p>
-
 <p align="center">
-  <a href="https://trendshift.io/repositories/53716?utm_source=repository-badge&amp;utm_medium=badge&amp;utm_campaign=badge-repository-53716" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/53716" alt="vorssaint/vorssaint-utils | Trendshift" width="250" height="55"></a>
-  <a href="https://trendshift.io/repositories/53716?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-53716" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/53716/weekly?language=Swift" alt="vorssaint/vorssaint-utils | Trendshift weekly ranking" width="250" height="55"></a>
-  <a href="https://trendshift.io/repositories/53716?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-53716" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/53716/monthly?language=Swift" alt="vorssaint/vorssaint-utils | Trendshift monthly ranking" width="250" height="55"></a>
+  <img src="docs/assets/screens/features.png" width="330" alt="Feature picker with ready-made setups">
+  <img src="docs/assets/screens/settings-monitor.png" width="420" alt="Settings: what shows in the menu bar">
 </p>
 
-<p align="center">
-  <img src="docs/assets/readme/panel-mixer.png" width="196" alt="Volume mixer with per app sliders, one app boosted past 100 percent">
-  <img src="docs/assets/readme/panel-system.png" width="196" alt="System tab with temperatures, usage graphs and memory pressure">
-  <img src="docs/assets/readme/panel-controls.png" width="196" alt="Window controls with the app switcher and Dock features">
-  <img src="docs/assets/readme/panel-utilities.png" width="196" alt="Utilities with cleaner, Homebrew, media tools and clipboard">
-</p>
+*Captured on an Intel MacBook Pro running MacBar's release build. The CPU temperature in the first panel comes from the Intel SMC sensors this fork adds.*
 
-Per app volume, a real system monitor, a better app switcher, window snapping, Dock previews, clipboard history, text snippets, a file shelf, an uninstaller. The utilities Mac users usually buy one by one, together behind a single menu bar icon, with no account, no telemetry and no subscription.
 
-## Install only what you use
+## What this fork changes
 
-Choose individual features or start with a preset. Uninstalled features stop loading and disappear from the interface; reinstalling restores their settings. Setup asks only for the permissions your choices need.
+- **Builds for Intel Macs** (`x86_64`). The upstream build script is hard-wired to Apple Silicon; here `build.sh` uses your machine's architecture, or `ARCH=arm64` / `ARCH=x86_64`.
+- **Reads Intel temperature sensors** (`TC…` / `TG…` SMC keys), which the upstream monitor did not look for.
+- **New name, icon and bundle identifiers** (`com.erold90.macbar`), as the upstream trademark policy requires for forks.
+- **No upstream services.** Screenshot/recording share links used the upstream maintainer's server; here they are disabled (`share.invalid`) and upload nothing. "Send feedback" opens this repository's GitHub issue forms. Donation, Discord and social buttons are hidden.
+- **No implicit keychain changes.** `build.sh` signs ad-hoc unless you run `Tools/setup-signing.sh` yourself.
 
-<p align="center">
-  <img src="docs/assets/readme/features-hub.png" width="720" alt="The Features hub in Settings, installing and uninstalling whole features">
-</p>
+## What was tested
 
-Reorder or hide panel sections, choose a compact layout, and export settings to another Mac. The app supports more than a dozen languages.
+Built and tested on an **Intel MacBook Pro (Core i7-8850H) with macOS 15.8.1**, using the Command Line Tools (Swift 6.1.2, macOS 15.5 SDK):
 
-## Everything it does
+- the project's own suite: **113,181 checks pass** (`./build.sh --test`), including new checks for the Intel sensors;
+- the app's built-in `--selftest` passes;
+- the release build launches, and the screenshots above were taken from it: welcome flow, system monitor, power panel and settings.
+
+**Not tested:** anything that needs a macOS permission or special hardware — Accessibility, Screen Recording, Microphone and Camera features, the Dynamic Island on a notchless Mac, the privileged fan-control helper, per-app audio routing, Bluetooth, display brightness. Treat those as unverified on Intel. Per-core CPU grouping is an Apple-Silicon-only code path and stays empty on Intel.
+
+## Install (build from source)
+
+You need macOS 14 or newer and the Xcode Command Line Tools.
+
+```sh
+git clone https://github.com/erold90/macbar.git
+cd macbar
+DEVELOPER_DIR=/Library/Developer/CommandLineTools ./build.sh --install
+```
+
+That builds `MacBar.app`, signs it ad-hoc and puts it in `/Applications`. Gatekeeper will not know the developer, so open it once with right-click → Open. Because the signature is ad-hoc, macOS asks for Accessibility and Screen Recording again after every rebuild; `./Tools/setup-signing.sh` creates a stable local identity (it adds its own keychain to your search list — read it first).
+
+There are no prebuilt binaries.
+
+## Uninstall
+
+Quit MacBar and move it to the Trash; `./Tools/uninstall.sh` also removes its settings and permissions.
+
+## Everything it does (inherited from upstream)
 
 ### Sound
 
@@ -94,14 +104,6 @@ Reorder or hide panel sections, choose a compact layout, and export settings to 
 - **Fixed Space order.** Keep Spaces in the order you set instead of rearranging them by recent use. Turning it off restores your previous setting.
 - **Quit on close.** Quit selected apps when their last window closes.
 - **Quit and close protection.** Prevent accidental ⌘Q or ⌘W with a hold, double press or extra modifier, per app.
-
-<p align="center">
-  <img src="docs/assets/readme/quit-protection-hold.png" width="300" alt="The hold-to-confirm prompt showing progress below the Command-Q quit shortcut hint">
-</p>
-
-<p align="center">
-  <img src="docs/assets/readme/window-switcher.gif" width="540" alt="The window switcher showing live thumbnails of open windows">
-</p>
 
 ### Keyboard and mouse
 
@@ -166,89 +168,21 @@ Reorder or hide panel sections, choose a compact layout, and export settings to 
 - **Keep awake.** Keep your Mac working on a timer, with the lid closed, or while selected apps, power or external displays are present.
 - **Displays.** Control individual displays and brightness, with hardware control where supported, half or quarter steps for the brightness keys, optional extra dimming below a monitor's minimum, and software dimming as a fallback.
 - **Extra brightness.** Use a MacBook Pro XDR display's HDR headroom to go beyond its normal maximum brightness.
-- **Bluetooth on sleep.** Disconnect Bluetooth during sleep and restore it on wake only if Vorssaint turned it off.
+- **Bluetooth on sleep.** Disconnect Bluetooth during sleep and restore it on wake only if MacBar turned it off.
 
-## Install
-
-With [Homebrew](https://brew.sh):
-
-```sh
-brew install --cask vorssaint
-```
-
-Or grab the disk image from the [releases page](https://github.com/vorssaint/vorssaint-utils/releases) and drag Vorssaint into Applications.
-
-Builds are signed with an Apple Developer ID and notarized, so macOS opens them without a fuss and your permissions survive updates.
-
-## Uninstall
-
-With Homebrew:
-
-```sh
-brew uninstall --cask vorssaint
-```
-
-To remove Vorssaint completely, including its settings and permissions:
-
-```sh
-./Tools/uninstall.sh
-```
 
 ## Private by default
 
-Vorssaint is local-first, with no account, analytics or tracking. The network is touched only by things you can see: update checks, the speed test, Homebrew actions, optional online lyric lookup, temporary screenshot or recording links and feedback you explicitly send. The full story is in the [privacy notes](docs/PRIVACY.md).
-
-Permissions get the same treatment. Every one is optional, the app explains each in plain words, shows which features actually use it, and even tells you when a permission you granted is no longer needed by anything, with a shortcut to revoke it.
-
-<p align="center">
-  <img src="docs/assets/readme/permissions.png" width="720" alt="The Permissions page showing what each permission does, which features use it, and an unused permission warning">
-</p>
-
-See the [permissions guide](docs/PERMISSIONS.md) for which features need access and what remains available without it.
-
-## What you need
-
-- A Mac with Apple Silicon
-- macOS 14 Sonoma or newer
-
-### Build it yourself
-
-```sh
-git clone https://github.com/vorssaint/vorssaint-utils.git
-cd vorssaint-utils
-./build.sh --dev            # build the separate Developer variant
-./build.sh --dev --install  # install and launch it
-```
-
-Xcode Command Line Tools are the only requirement. The [contributing guide](CONTRIBUTING.md) covers the layout and conventions. Official builds come only from the maintainer: the GPL covers the source, while the Vorssaint name, icon and look are covered by [TRADEMARKS.md](TRADEMARKS.md), so forks need their own identity.
-
-## When something misbehaves
-
-See [troubleshooting](docs/TROUBLESHOOTING.md) for launch problems, permissions and missing previews, or [support](SUPPORT.md) for help.
+MacBar is local-first: no account, analytics or tracking. See [docs/PRIVACY.md](docs/PRIVACY.md) (with a fork note at the top) and [docs/PERMISSIONS.md](docs/PERMISSIONS.md).
 
 ## Documentation
 
-- [Privacy](docs/PRIVACY.md), what does and does not leave your Mac
-- [Permissions](docs/PERMISSIONS.md), every macOS permission in plain words
-- [Troubleshooting](docs/TROUBLESHOOTING.md), the common fixes
-- [Contributing](CONTRIBUTING.md), build, layout and conventions
-- [Support](SUPPORT.md), where to get help
-- [Security](SECURITY.md), how to report a vulnerability
+[Privacy](docs/PRIVACY.md) · [Permissions](docs/PERMISSIONS.md) · [Troubleshooting](docs/TROUBLESHOOTING.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Notice](NOTICE.md)
 
-## Community
+## Licence
 
-Vorssaint went from first commit to the front of GitHub trending in three days, top of the Swift charts, and issues and pull requests have shaped every release since. Bug reports, feature ideas and translations are all welcome, starting from the [contributing guide](CONTRIBUTING.md).
+[GPL 3.0 or later](LICENSE). Original code © 2026 Vorssaint; modifications © 2026 MacBar contributors. The upstream name, logo and icon are not used here.
 
-Vorssaint is free and will stay that way. If it earned its place in your menu bar, a star helps other people find it, and a [coffee](https://buymeacoffee.com/vorssaint) keeps the maintainer awake, with or without the Keep awake feature.
+---
 
-## Acknowledgements
-
-- App icon designed by [@divisionseven](https://github.com/divisionseven)
-
-## License
-
-[GPL 3.0 or later](LICENSE), copyright 2026 Vorssaint. The license covers the source code; the Vorssaint name, logo and look are covered separately in [TRADEMARKS.md](TRADEMARKS.md).
-
-<p align="center">
-  <sub>Made by <a href="https://x.com/vorssaint">@vorssaint</a></sub>
-</p>
+*In breve (italiano):* MacBar è un fork non ufficiale di Vorssaint che compila e gira sui Mac Intel. Si installa da sorgente con `./build.sh --install`. Le funzioni che richiedono permessi di macOS non sono state provate su Intel; la lista completa è sopra.

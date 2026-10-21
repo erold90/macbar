@@ -56,7 +56,7 @@ enum NotchWatchChoiceTests {
         var completion: ((Outcome) -> Void)?
         var cancellations = 0
 
-        init(freeze: Bool, includePointer: Bool, showLastRegion: Bool, hideVorssaintWindows: Bool,
+        init(freeze: Bool, includePointer: Bool, showLastRegion: Bool, hideMacBarWindows: Bool,
              protectedWindowIDs: @escaping () -> Set<CGWindowID>, purpose: String, mode: Mode) {}
         func begin(_ completion: @escaping (Outcome) -> Void) { self.completion = completion }
         func cancel() { cancellations += 1; completion?(.cancelled) }
@@ -65,10 +65,10 @@ enum NotchWatchChoiceTests {
     enum ScreenshotCaptureEngine {
         final class RegionCapture {}
         static var pending: [CheckedContinuation<RegionCapture?, Never>] = []
-        static func pickableWindows(hideVorssaintWindows: Bool, protectedWindowIDs: Set<CGWindowID>)
+        static func pickableWindows(hideMacBarWindows: Bool, protectedWindowIDs: Set<CGWindowID>)
             -> [(id: CGWindowID, bounds: CGRect)] { [] }
         static func prepareDisplayRegion(displayID: CGDirectDisplayID, pixelRect: CGRect, includePointer: Bool,
-                                         hideVorssaintWindows: Bool, protectedWindowIDs: Set<CGWindowID>,
+                                         hideMacBarWindows: Bool, protectedWindowIDs: Set<CGWindowID>,
                                          keepsIslandOut: Bool) async -> RegionCapture? {
             await withCheckedContinuation { pending.append($0) }
         }

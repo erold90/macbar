@@ -206,7 +206,7 @@ enum ScreenshotShareCompletionTests {
     typealias ScreenshotQuickPreviewController = Controller
 
     @MainActor class UploadState {
-        let defaultsName = "vorss.tests.screenshot-shortcut.\(UUID().uuidString)"
+        let defaultsName = "macbar.tests.screenshot-shortcut.\(UUID().uuidString)"
         let defaults: UserDefaults
         let strings = ScreenshotFeatureStrings.enUS
         var uploadingCaptureID: UUID?

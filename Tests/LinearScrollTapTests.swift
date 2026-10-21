@@ -53,7 +53,7 @@ enum LinearScrollTapTests {
     }
 
     static func run(_ suite: TestSuite) {
-        let name = "com.vorssaint.tests.linear-scroll-tap.\(UUID().uuidString)"
+        let name = "com.erold90.macbar.tests.linear-scroll-tap.\(UUID().uuidString)"
         let defaults = Foundation.UserDefaults(suiteName: name)!
         StandardDefaults.standard = defaults
         defer {

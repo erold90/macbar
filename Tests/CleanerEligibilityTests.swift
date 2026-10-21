@@ -186,7 +186,7 @@ enum CleanerEligibilityTests {
     static func run(_ suite: TestSuite) {
         let manager = FileManager.default
         let root = manager.temporaryDirectory.resolvingSymlinksInPath()
-            .appendingPathComponent("vorssaint-cleaner-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("macbar-cleaner-\(UUID().uuidString)", isDirectory: true)
         fixtureRoot = root
         defer { fixtureRoot = nil; try? manager.removeItem(at: root) }
         do {

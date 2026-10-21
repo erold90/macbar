@@ -7,7 +7,7 @@ import Foundation
 /// counters in place of scanning, scheduling and notifications.
 enum AppUpdateRulesContract {
     enum UserDefaults {
-        static let name = "vorss.tests.app-update-rules.\(UUID().uuidString)"
+        static let name = "macbar.tests.app-update-rules.\(UUID().uuidString)"
         static let standard = Foundation.UserDefaults(suiteName: name)!
     }
 
@@ -112,7 +112,7 @@ enum AppUpdateRulesContract {
     /// the scan takes its own release from the product file beside its code.
     private static func productVersions(_ suite: TestSuite) {
         let folder = FileManager.default.temporaryDirectory
-            .appendingPathComponent("vorss-app-update-products-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("macbar-app-update-products-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: folder) }
         func scanned(_ name: String, product: String?) -> Support.InstalledApp? {
             let url = folder.appendingPathComponent("\(name).app", isDirectory: true)
@@ -139,7 +139,7 @@ enum AppUpdateRulesContract {
     /// date or never matched by a source can still be left out.
     private static func pickedExclusions(_ suite: TestSuite) {
         let folder = FileManager.default.temporaryDirectory
-            .appendingPathComponent("vorss-app-update-rules-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("macbar-app-update-rules-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: folder) }
         func bundle(_ name: String, _ info: [String: Any]) -> URL {
             let url = folder.appendingPathComponent("\(name).app", isDirectory: true)
@@ -165,8 +165,8 @@ enum AppUpdateRulesContract {
         suite.expect(service.rules == kept, "a picked bundle without an identifier adds no rule")
         service.addExclusion(appAt: bundle("Empty", ["CFBundleIdentifier": ""]))
         suite.expect(service.rules == kept, "a picked bundle with an empty identifier adds no rule")
-        service.addExclusion(appAt: bundle("Vorssaint", ["CFBundleIdentifier": "com.vorssaint.utils"]))
-        suite.expect(service.rules == kept, "Vorssaint's own bundles never become exclusions")
+        service.addExclusion(appAt: bundle("MacBar", ["CFBundleIdentifier": "com.erold90.macbar"]))
+        suite.expect(service.rules == kept, "MacBar's own bundles never become exclusions")
         service.addExclusion(appAt: bundle("Spaced", ["CFBundleIdentifier": "com.example two"]))
         suite.expect(service.rules == kept, "a picked identifier with whitespace that a reload would drop adds no rule")
         service.addExclusion(appAt: bundle("Slashed", ["CFBundleIdentifier": "com.example/two"]))
@@ -189,7 +189,7 @@ enum AppUpdateRulesContract {
     }
 
     private static func listControls(_ suite: TestSuite) {
-        let source = (try? String(contentsOfFile: "Sources/Vorssaint/UI/AppUpdates/AppUpdatesListView.swift",
+        let source = (try? String(contentsOfFile: "Sources/MacBar/UI/AppUpdates/AppUpdatesListView.swift",
                                   encoding: .utf8)) ?? ""
         suite.expect(source.contains("guard !inNotch else {")
                      && source.contains("guard panel.runAboveIsland() == .OK, let url = panel.url else { return }"),
@@ -206,9 +206,9 @@ enum AppUpdateRulesContract {
 
         // Settings hosts the full list and the menu bar panel the compact one,
         // whose rows have no width to spare for the visible menu.
-        let settings = (try? String(contentsOfFile: "Sources/Vorssaint/UI/Settings/AppUpdatesSettings.swift",
+        let settings = (try? String(contentsOfFile: "Sources/MacBar/UI/Settings/AppUpdatesSettings.swift",
                                     encoding: .utf8)) ?? ""
-        let panel = (try? String(contentsOfFile: "Sources/Vorssaint/UI/MenuPanel/PanelAppUpdatesView.swift",
+        let panel = (try? String(contentsOfFile: "Sources/MacBar/UI/MenuPanel/PanelAppUpdatesView.swift",
                                  encoding: .utf8)) ?? ""
         let row = (source.components(separatedBy: "private func row(_ item: AppUpdatesSupport.Item) -> some View {")
             .dropFirst().first ?? "").components(separatedBy: "private func ruleActions(").first ?? ""

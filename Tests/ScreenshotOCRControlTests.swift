@@ -56,7 +56,7 @@ enum ScreenshotOCRControlTests {
         let previous = NSApp.perform(getter, with: attribute)?.takeUnretainedValue() as? NSNumber ?? false
         NSApp.perform(setter, with: true, with: attribute)
         defer { NSApp.perform(setter, with: previous, with: attribute) }
-        let domain = "vorss.tests.ocr-control.\(UUID().uuidString)"
+        let domain = "macbar.tests.ocr-control.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: domain)!
         defaults.set(true, forKey: DefaultsKey.screenshotSharingEnabled)
         defer {

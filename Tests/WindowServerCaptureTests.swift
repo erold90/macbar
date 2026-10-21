@@ -245,7 +245,7 @@ enum WindowServerCaptureContract {
         suite.expect(WindowServerCaptureQueue.screenRecordingCheck != nil,
                      "TCCAccessPreflight resolves from TCC.framework, so each capture turn can ask tccd first")
         WindowServerCaptureQueue.screenRecordingCheck?()
-        let provider = (try? String(contentsOfFile: "Sources/Vorssaint/Services/Switcher/WindowPreviewProvider.swift",
+        let provider = (try? String(contentsOfFile: "Sources/MacBar/Services/Switcher/WindowPreviewProvider.swift",
                                     encoding: .utf8)) ?? ""
         suite.expect(provider.contains("WindowServerCaptureQueue(\n        checkPermission: WindowServerCaptureQueue.screenRecordingCheck ?? {})"),
                      "the shared capture queue asks tccd before its turns")

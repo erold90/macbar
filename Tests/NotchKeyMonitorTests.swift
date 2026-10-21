@@ -166,7 +166,7 @@ enum NotchKeyMonitorTests {
                      "Command-Comma opens the island's settings from inside it")
         // Keep open, Settings and Collapse have no button in the row; besides
         // the secondary-click menu, VoiceOver reaches them as named actions.
-        let islandSource = ((try? String(contentsOfFile: "Sources/Vorssaint/UI/Notch/NotchView.swift",
+        let islandSource = ((try? String(contentsOfFile: "Sources/MacBar/UI/Notch/NotchView.swift",
                                          encoding: .utf8)) ?? "")
             .filter { !$0.isWhitespace }
         suite.expect([".accessibilityAction(named:service.pinned?text.unpin:text.pin){service.pinned.toggle()}",

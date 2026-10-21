@@ -73,7 +73,7 @@ enum NotchPlaybackRoutingContract {
     static func isMusicApp(_ app: NSRunningApplication, parentBundleIdentifier: String? = nil) -> Bool {
         app.processIdentifier == 10
     }
-    static func vorssaintNowPlayingGet() { refreshes += 1 }
+    static func macbarNowPlayingGet() { refreshes += 1 }
     typealias NotchNativePlayback = NotchPlaybackRoutingContract
     enum NotchNativeQueue {
         static var request: UUID?

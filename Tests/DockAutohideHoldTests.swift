@@ -75,7 +75,7 @@ enum DockAutohideHoldTests {
     }
 
     static func run(_ suite: TestSuite) {
-        let name = "com.vorssaint.tests.dock-hold.\(UUID().uuidString)"
+        let name = "com.erold90.macbar.tests.dock-hold.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: name)!
         defer { defaults.removePersistentDomain(forName: name) }
         let marker = DefaultsKey.dockPreviewRestoreAutohide

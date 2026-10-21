@@ -43,7 +43,7 @@ enum MenuBarBatteryWarningTests {
     }
 
     static func run(_ suite: TestSuite) {
-        let domain = "com.vorssaint.tests.menu-bar-battery-warning"
+        let domain = "com.erold90.macbar.tests.menu-bar-battery-warning"
         let defaults = UserDefaults(suiteName: domain)!
         defaults.removePersistentDomain(forName: domain)
         ReviewDefaults.current = defaults

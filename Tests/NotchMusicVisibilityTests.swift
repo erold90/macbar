@@ -141,7 +141,7 @@ enum NotchMusicVisibilityTests {
     }
 
     static func run(_ suite: TestSuite) {
-        let domain = "com.vorssaint.tests.notch-music-visibility"
+        let domain = "com.erold90.macbar.tests.notch-music-visibility"
         let defaults = UserDefaults(suiteName: domain)!
         defaults.removePersistentDomain(forName: domain)
         ReviewDefaults.current = defaults

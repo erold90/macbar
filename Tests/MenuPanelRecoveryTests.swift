@@ -288,7 +288,7 @@ enum MenuPanelRecoveryTests {
             host.popoverWillClose(Notification(name: Notification.Name("willClose")))
             host.popoverDidClose(Notification(name: Notification.Name("closed")))
         }
-        // A close Vorssaint asks for itself, which marks it app requested.
+        // A close MacBar asks for itself, which marks it app requested.
         func requestClose(_ host: Host, _ reason: PanelCloseReason) {
             host.closePopoverNow(animated: false, reason: reason, completion: nil)
             host.popoverWillClose(Notification(name: Notification.Name("willClose")))
@@ -683,7 +683,7 @@ enum MenuPanelRecoveryTests {
             close(host)
             DispatchQueue.main.drain()
             expect(!host.popover.isShown && source.activations == 0,
-                   "a close Vorssaint did not ask for does not hand activation back")
+                   "a close MacBar did not ask for does not hand activation back")
         }
         do {
             let host = setup()

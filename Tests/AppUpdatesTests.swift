@@ -119,7 +119,7 @@ enum AppUpdatesContract {
             ("companion identity", [entry(name: "Other.app", ids: ["com.example.other", app.bundleID])], false, 0),
             ("incompatible", [entry(minimum: ["99"])], false, 0),
             ("unknown compatibility", [entry(unsupported: true)], false, 0),
-            ("ignored", [entry(token: "vorssaint")], false, 0),
+            ("ignored", [entry(token: "macbar")], false, 0),
             ("current", [entry(version: "1.0")], true, 0),
             ("installed newer", [entry(version: "0.9")], true, 0),
             ("available update", [entry()], true, 1),
@@ -194,7 +194,7 @@ enum AppUpdatesContract {
         suite.expect(answeredTemplateFeed.checkedPaths == [templateApp.path]
                      && template.uncomparableAppNames(coveredBy: answeredTemplateFeed).isEmpty,
                      "an app its own feed compared is not also named as not compared")
-        let serviceSource = (try? String(contentsOfFile: "Sources/Vorssaint/Services/AppUpdates/AppUpdatesService.swift",
+        let serviceSource = (try? String(contentsOfFile: "Sources/MacBar/Services/AppUpdates/AppUpdatesService.swift",
                                          encoding: .utf8)) ?? ""
         suite.expect(serviceSource.contains("feedResult.resolvingCatalogFallback(\n                    answeredBy: onlineResult, candidates: onlineCandidates)")
                      && serviceSource.contains("uncomparableAppNames: onlineResult.uncomparableAppNames(coveredBy: resolvedFeed),"),

@@ -124,7 +124,7 @@ let menuBarGlyphHeight: CGFloat = 12.5
 let menuBarGlyphDrop: CGFloat = 1
 // Taller than the mark needs: the same canvas holds the compact Keep Awake
 // symbols. Keep in sync with BlackHoleGlyph.pointSize in
-// Sources/Vorssaint/App/StatusItemController.swift; `--selftest` enforces it.
+// Sources/MacBar/App/StatusItemController.swift; `--selftest` enforces it.
 let menuBarCanvas = (width: 26, height: 20)
 
 func renderMenuBarIcon(scale: Int) -> Data? {

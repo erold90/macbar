@@ -7,7 +7,7 @@ import Foundation
 /// and progress observer. Only UI refreshes and file watchers are replaced.
 enum NotchDownloadScanTests {
     class Fixture {
-        let queue = DispatchQueue(label: "com.vorssaint.tests.download-scan")
+        let queue = DispatchQueue(label: "com.erold90.macbar.tests.download-scan")
         var folder: URL?
         var generation = UUID()
         var progressObserver: NotchDownloadProgressObserver?

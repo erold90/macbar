@@ -149,7 +149,7 @@ enum KeyboardFeatureTests {
         // symbols rather than on the private member holding them, so renaming
         // it stays green and dropping the ASCII-capable lookup goes red.
         let shortcutSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Core/GlobalShortcut.swift",
+            contentsOfFile: "Sources/MacBar/Core/GlobalShortcut.swift",
             encoding: .utf8)) ?? ""
         let shortcutCode = shortcutSource.split(separator: "\n", omittingEmptySubsequences: false)
             .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }

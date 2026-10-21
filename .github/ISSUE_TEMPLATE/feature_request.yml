@@ -1,5 +1,5 @@
 name: "✨ Feature Request"
-description: Suggest a new feature or improvement for Vorssaint
+description: Suggest a new feature or improvement for MacBar
 labels:
   - enhancement
 
@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        **Someone may have asked already.** [Enhancement Summary](https://github.com/vorssaint/vorssaint-utils/issues/838)
+        **Someone may have asked already.** [Enhancement Summary](https://github.com/erold90/macbar/issues/838)
         indexes every open request, sorted into what already shipped, what is
         worth doing, and what has been ruled out and why.
 
@@ -28,7 +28,7 @@ body:
     attributes:
       label: Proposed Solution
       description: Describe the solution you'd like to see.
-      placeholder: It would be great if Vorssaint could...
+      placeholder: It would be great if MacBar could...
     validations:
       required: true
 

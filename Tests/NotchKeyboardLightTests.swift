@@ -17,7 +17,7 @@ enum NotchKeyboardLightTests {
                 }
             }
         }
-        let domain = "com.vorssaint.tests.notch-keyboard-light"
+        let domain = "com.erold90.macbar.tests.notch-keyboard-light"
         let defaults = UserDefaults(suiteName: domain)!
         defaults.removePersistentDomain(forName: domain)
         defer { defaults.removePersistentDomain(forName: domain) }

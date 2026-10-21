@@ -95,7 +95,7 @@ enum AgentClaudeServerTests {
             .windows.map(\.kind) == [.weekly, .weekly]
             && AgentClaudeServer.current(limits, now: AgentTimestamp.parse("2026-10-18T00:00:00Z")!) == nil,
                      "passed renewals expire independently without claiming zero remote usage")
-        let folder = FileManager.default.temporaryDirectory.appending(path: "vorssaint-claude-server-\(UUID())")
+        let folder = FileManager.default.temporaryDirectory.appending(path: "macbar-claude-server-\(UUID())")
         defer { try? FileManager.default.removeItem(at: folder) }
         do {
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
@@ -202,7 +202,7 @@ enum AgentClaudeServerTests {
     /// what the account and the Claude app report.
     private static func alerts(_ suite: TestSuite) {
         let at = { (time: String) in AgentTimestamp.parse(time)! }
-        let folder = FileManager.default.temporaryDirectory.appending(path: "vorssaint-claude-alerts-\(UUID())")
+        let folder = FileManager.default.temporaryDirectory.appending(path: "macbar-claude-alerts-\(UUID())")
         defer { try? FileManager.default.removeItem(at: folder) }
         let desktop = AgentClaudeAppUsage.historyURL(home: folder)
         func host() -> Host {
@@ -332,7 +332,7 @@ enum AgentClaudeServerTests {
     /// stand-ins that only exit.
     private static func discovery(_ suite: TestSuite) {
         func home() throws -> URL {
-            let home = FileManager.default.temporaryDirectory.appending(path: "vorssaint-claude-install-\(UUID())")
+            let home = FileManager.default.temporaryDirectory.appending(path: "macbar-claude-install-\(UUID())")
             try FileManager.default.createDirectory(at: home, withIntermediateDirectories: true)
             return home
         }

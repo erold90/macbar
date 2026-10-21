@@ -48,7 +48,7 @@ enum DiskImageHomebrewTests {
     static func run(_ suite: TestSuite) {
         let fm = FileManager.default
         let root = Foundation.FileManager.default.temporaryDirectory
-            .appendingPathComponent("vorss-dmg-homebrew-\(UUID())", isDirectory: true)
+            .appendingPathComponent("macbar-dmg-homebrew-\(UUID())", isDirectory: true)
         fm.root = root
         defer {
             try? fm.removeItem(at: root)

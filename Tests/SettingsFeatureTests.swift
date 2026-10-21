@@ -496,7 +496,7 @@ enum SettingsFeatureTests {
         // Strip comments before asserting: "X appears before Y" would otherwise
         // be satisfied by a doc comment mentioning either.
         let backupServiceLines = ((try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/SettingsBackup.swift",
+            contentsOfFile: "Sources/MacBar/Services/SettingsBackup.swift",
             encoding: .utf8)) ?? "").components(separatedBy: "\n")
         let captureAt = backupServiceLines.firstIndex {
             isCodeLine($0) && $0.contains("SettingsBackupSupport.pathIdentities(")

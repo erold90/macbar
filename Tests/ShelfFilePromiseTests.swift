@@ -38,7 +38,7 @@ enum ShelfFilePromiseTests {
 
     static func run(_ suite: TestSuite) {
         let fm = FileManager.default
-        let root = fm.temporaryDirectory.appendingPathComponent("vorss-promise-tests-\(UUID())")
+        let root = fm.temporaryDirectory.appendingPathComponent("macbar-promise-tests-\(UUID())")
         defer { try? fm.removeItem(at: root) }
         func fixture(_ name: String) -> (URL, URL) {
             let incoming = root.appendingPathComponent(name + "/incoming")

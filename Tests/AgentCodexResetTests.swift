@@ -111,7 +111,7 @@ enum AgentCodexResetTests {
                             "/shell/bin/codex", "/more/codex"],
                      "the desktop app's copy comes first, in its current then its earlier layout, then the installers' folders and the shell's")
 
-        let root = FileManager.default.temporaryDirectory.appending(path: "vorss-codex-\(UUID().uuidString)")
+        let root = FileManager.default.temporaryDirectory.appending(path: "macbar-codex-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: root) }
         let fakeHome = root.appending(path: "home")
         let fakeApp = root.appending(path: "Agent.app")
@@ -181,7 +181,7 @@ enum AgentCodexResetTests {
         """#
 
     private static func conversations(_ suite: TestSuite) {
-        let folder = FileManager.default.temporaryDirectory.appending(path: "vorss-codex-server-\(UUID().uuidString)")
+        let folder = FileManager.default.temporaryDirectory.appending(path: "macbar-codex-server-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
         try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let server = folder.appending(path: "codex")

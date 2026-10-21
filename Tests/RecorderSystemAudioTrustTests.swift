@@ -141,7 +141,7 @@ enum RecorderSystemAudioTrustTests {
         // The tap's pipeline is Core Audio, so its bookkeeping is read as
         // source text.
         let tapSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/Recorder/RecorderSystemAudioTap.swift",
+            contentsOfFile: "Sources/MacBar/Services/Recorder/RecorderSystemAudioTap.swift",
             encoding: .utf8)) ?? ""
         let started = ["        self.sampleRate = sampleRate\n", "        pipelineStarted.value = mach_absolute_time()\n",
                        "        ran.raise()\n"].joined()

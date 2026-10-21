@@ -24,3 +24,4 @@ CLAUDE.md
 *.xcodeproj
 xcuserdata/
 .swiftpm/
+.memsearch/

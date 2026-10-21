@@ -5,7 +5,7 @@ import AppKit
 
 /// Opening the player from the island's cover or the radial Now Playing card
 /// runs as shipped against doubles that never activate, unhide or launch an
-/// app. Both are non-activating panels, so Vorssaint rarely holds activation
+/// app. Both are non-activating panels, so MacBar rarely holds activation
 /// of its own, and a bare request left the player where it was.
 enum NowPlayingOpenContract {
     static var events: [String] = []
@@ -74,7 +74,7 @@ enum NowPlayingOpenContract {
         }
         open(App(processIdentifier: 20))
         suite.expect(events == ["yield:20", "activate:20:1:true"],
-                     "the cover hands Vorssaint's activation to the player before asking for all its windows")
+                     "the cover hands MacBar's activation to the player before asking for all its windows")
         open(App(processIdentifier: 20), cooperative: false)
         suite.expect(events == ["yield:20", "activate:20:1:true", "fallback:20:true"],
                      "a refused cooperative request still falls back to a direct one")
@@ -85,7 +85,7 @@ enum NowPlayingOpenContract {
             open(App(processIdentifier: 20, activationPolicy: policy),
                  installedAt: URL(fileURLWithPath: "/Applications/Player.app"))
             suite.expect(events.isEmpty,
-                         "a helper that takes no activation leaves Vorssaint inactive and launches nothing")
+                         "a helper that takes no activation leaves MacBar inactive and launches nothing")
         }
         open(App(processIdentifier: 20), window: false)
         suite.expect(events == ["yield:20", "activate:20:1:true", "reopen:Player.app"],

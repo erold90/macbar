@@ -28,7 +28,7 @@ enum AgentUsageArchiveTests {
     ]
 
     static func run(_ suite: TestSuite) {
-        let folder = FileManager.default.temporaryDirectory.appending(path: "vorss-archive-\(UUID().uuidString)")
+        let folder = FileManager.default.temporaryDirectory.appending(path: "macbar-archive-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
         do { try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true) }
         catch { suite.expect(false, "the archive fixture creates its folder: \(error)"); return }
@@ -241,9 +241,9 @@ enum AgentUsageArchiveTests {
         // may parse differently.
         let release: [String: Any] = ["CFBundleShortVersionString": "3.5", "CFBundleVersion": "120"]
         var developer = release
-        developer["VorssaintBuildCommit"] = "abc1234 · 2026-10-01 09:00"
+        developer["MacBarBuildCommit"] = "abc1234 · 2026-10-01 09:00"
         var rebuilt = release
-        rebuilt["VorssaintBuildCommit"] = "abc1234-dirty · 2026-10-01 09:05"
+        rebuilt["MacBarBuildCommit"] = "abc1234-dirty · 2026-10-01 09:05"
         suite.expect(AgentUsageArchive.build(info: release) == "3.5-120"
                         && AgentUsageArchive.build(info: developer) != AgentUsageArchive.build(info: release)
                         && AgentUsageArchive.build(info: developer) != AgentUsageArchive.build(info: rebuilt),
@@ -397,7 +397,7 @@ enum AgentUsageArchiveSettleTests {
     }
 
     class Fixture {
-        let queue = DispatchQueue(label: "com.vorssaint.agent-usage.settle-test")
+        let queue = DispatchQueue(label: "com.erold90.macbar.agent-usage.settle-test")
         var saved = 0
         func saveProgress() { saved += 1 }
     }
@@ -461,7 +461,7 @@ enum AgentUsageArchiveSaveTests {
 
         // A log replaced while the app ran still counts what its old contents
         // gave, so it is left out and the next launch reads it as rewritten.
-        let folder = FileManager.default.temporaryDirectory.appending(path: "vorss-archive-save-\(UUID().uuidString)")
+        let folder = FileManager.default.temporaryDirectory.appending(path: "macbar-archive-save-\(UUID().uuidString)")
         defer { try? FileManager.default.removeItem(at: folder) }
         try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let keptLog = folder.appending(path: "kept.jsonl")

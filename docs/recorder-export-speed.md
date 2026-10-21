@@ -15,7 +15,7 @@ Run on a supported Mac:
 ```sh
 ./build.sh --test-suite=recorder
 ./build.sh --dev
-./build/VorssaintDeveloper --selftest
+./build/MacBarDeveloper --selftest
 ```
 
 `RecorderExportSpeedTests` is registered in the recorder suite and covers legacy decoding, custom-speed persistence, invalid values and bounds, inverse clock conversion, trim/cut ordering, unchanged preview timing, visual presets and GIF sampling. The recorder suite also runs `RecorderExportRenderingTests` through the production AVFoundation exporter. Synthetic video and two audio tracks cover fractional and endpoint speeds, trim and cut boundaries, blur coverage and clear frames, duration, delayed microphone, silence, pitch, gain, mute, a 30-second GIF at 15 fps, GIF size against the single encoder, frames that do not decode, clipboard copying within and past the inline limit, progress pacing and cancellation. `RecorderGIFWriterTests` covers chunk boundaries, palette changes, transparency, compactness, timing, malformed frame data and temporary-file leases. These checks do not exercise native control layout or physical capture hardware.

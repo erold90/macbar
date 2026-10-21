@@ -440,7 +440,7 @@ enum ScreenshotImageLayerTests {
     }
 
     private static func editorViewContracts(_ suite: TestSuite) {
-        let source = (try? String(contentsOfFile: "Sources/Vorssaint/UI/Screenshot/ScreenshotEditorView.swift",
+        let source = (try? String(contentsOfFile: "Sources/MacBar/UI/Screenshot/ScreenshotEditorView.swift",
                                   encoding: .utf8)) ?? ""
         func section(_ start: String, _ end: String) -> String {
             guard let lower = source.range(of: start),
@@ -477,7 +477,7 @@ enum ScreenshotImageLayerTests {
                      "the canvas takes presses on the expansion grips' outer half, past its edge")
         suite.expect(canvas.contains("cardCornerRadius: model.showsBackdrop\n                                                         ? model.cardCornerPixels * zoom\n                                                         : outerRadius)"),
                      "the expansion preview fills around the card's corners with the rounding they are drawn with")
-        let preview = (try? String(contentsOfFile: "Sources/Vorssaint/UI/Screenshot/ScreenshotCanvasExpansionPreview.swift",
+        let preview = (try? String(contentsOfFile: "Sources/MacBar/UI/Screenshot/ScreenshotCanvasExpansionPreview.swift",
                                    encoding: .utf8)) ?? ""
         suite.expect(preview.contains("cg.addRect(outer)\n                cg.addPath(Self.cardHole(old, in: outer, cornerRadius: cardCornerRadius))\n                cg.clip(using: .evenOdd)"),
                      "the expansion preview fills the wedges at the card's corners the margin meets")

@@ -8,7 +8,7 @@ import Foundation
 enum MenuPanelToggleLabelContract {
     static func run(_ suite: TestSuite) {
         let source = (try? String(contentsOfFile:
-                "Sources/Vorssaint/UI/MenuPanel/MenuPanelView.swift", encoding: .utf8)) ?? ""
+                "Sources/MacBar/UI/MenuPanel/MenuPanelView.swift", encoding: .utf8)) ?? ""
         let code = source.components(separatedBy: "\n")
             .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
             .joined(separator: "\n")

@@ -37,7 +37,7 @@ enum WallpaperContract {
                      "a delayed close from before feature reset cannot cancel a new panel")
 
         let appleRoot = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-            .appendingPathComponent("vorssaint-wallpaper-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("macbar-wallpaper-\(UUID().uuidString)", isDirectory: true)
         defer { try? FileManager.default.removeItem(at: appleRoot) }
 
         try? FileManager.default.createDirectory(at: appleRoot, withIntermediateDirectories: true)
@@ -149,7 +149,7 @@ enum WallpaperContract {
                         && WallpaperSupport.pageSlice(numbers, page: 3) == [49, 50],
                      "page slices cover the list without overlap")
 
-        let imageURL = URL(fileURLWithPath: "/tmp/vorssaint-wallpaper-test.png")
+        let imageURL = URL(fileURLWithPath: "/tmp/macbar-wallpaper-test.png")
         suite.expect(WallpaperSupport.imageFileConfigurationData(for: imageURL) != nil
                         && WallpaperSupport.fillScreenOptionValuesData() != nil,
                      "store blobs encode for a still image")

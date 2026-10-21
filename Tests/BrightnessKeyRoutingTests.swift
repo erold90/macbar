@@ -75,7 +75,7 @@ enum BrightnessKeyRoutingTests {
         struct Route { var method: Method }
         enum Method { case system, ddc }
         struct Display { let id: UInt32; let isBuiltIn: Bool; let brightness: Double }
-        static let log = Logger(subsystem: "vorssaint.tests", category: "brightness-keys")
+        static let log = Logger(subsystem: "macbar.tests", category: "brightness-keys")
         static var forwardedSteps = 0
         var running = true
         var keyTap: Int?

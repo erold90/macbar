@@ -281,7 +281,7 @@ enum MediaFeatureTests {
         // suite has existed.
         var scratchPaths: [URL] = []
         let uniqueDir = FileManager.default.temporaryDirectory
-            .appendingPathComponent("vorssaint-media-unique-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("macbar-media-unique-\(UUID().uuidString)", isDirectory: true)
         try? FileManager.default.createDirectory(at: uniqueDir, withIntermediateDirectories: true)
         scratchPaths.append(uniqueDir)
         let firstImageOutput = MediaSupport.uniqueOutputURL(in: uniqueDir, baseName: "Export", fileExtension: "png")
@@ -437,7 +437,7 @@ enum MediaFeatureTests {
                == "/tmp/Output.gif",
                "Media GIF output falls back when the visible source name is empty")
         let mediaVisibilityDir = FileManager.default.temporaryDirectory
-            .appendingPathComponent("vorssaint-media-visibility-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("macbar-media-visibility-\(UUID().uuidString)", isDirectory: true)
         try? FileManager.default.createDirectory(at: mediaVisibilityDir,
                                                  withIntermediateDirectories: true)
         scratchPaths.append(mediaVisibilityDir)

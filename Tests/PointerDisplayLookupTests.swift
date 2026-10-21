@@ -44,7 +44,7 @@ enum PointerDisplayLookupContract {
         @MainActor enum ScreenshotCaptureEngine {
             static var displays: [CGDirectDisplayID] = []
             static func captureDisplay(_ displayID: CGDirectDisplayID, includePointer: Bool,
-                                       hideVorssaintWindows: Bool,
+                                       hideMacBarWindows: Bool,
                                        protectedWindowIDs: Set<CGWindowID>) async -> CGImage? {
                 displays.append(displayID)
                 return nil
@@ -60,7 +60,7 @@ enum PointerDisplayLookupContract {
         let strings = Strings()
         var preview: Preview?
         var directCaptureTask: Task<Void, Never>?
-        let hideVorssaintWindows = false
+        let hideMacBarWindows = false
         let protectedWindowIDs: Set<CGWindowID> = []
         func route(_ capture: ScreenshotSelectionController.Capture) {}
     }

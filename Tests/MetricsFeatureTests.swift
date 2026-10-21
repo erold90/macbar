@@ -649,6 +649,16 @@ enum MetricsFeatureTests {
         ) == nil, "A18 Pro remains unavailable when no CPU sensor answers")
         suite.expect(TemperatureSensorSelector.platform(brandString: "Generic CPU") == .generic,
                "other processors keep the generic CPU sensor path")
+        suite.expect(TemperatureSensorSelector.isCPUTemperatureKey("TC0P", platform: .generic)
+                && TemperatureSensorSelector.isCPUTemperatureKey("TCXC", platform: .generic)
+                && TemperatureSensorSelector.isCPUTemperatureKey("TC1C", platform: .generic)
+                && !TemperatureSensorSelector.isCPUTemperatureKey("TC0P", platform: .appleM4Family)
+                && !TemperatureSensorSelector.isCPUTemperatureKey("TCGC", platform: .generic),
+                     "Intel CPU temperature keys are read on Intel Macs only")
+        suite.expect(TemperatureSensorSelector.isIntelGPUTemperatureKey("TG0P")
+                && TemperatureSensorSelector.isIntelGPUTemperatureKey("TCGC")
+                && !TemperatureSensorSelector.isIntelGPUTemperatureKey("TC0P"),
+                     "Intel GPU temperature keys are recognised")
         suite.expect(TemperatureSensorSelector.isCPUTemperatureKey("Tf4E", platform: .appleM3Family)
                 && !TemperatureSensorSelector.isCPUTemperatureKey("Tf4E", platform: .appleM4Family)
                 && TemperatureSensorSelector.isCPUTemperatureKey("Tp01", platform: .appleM4Family),
@@ -996,7 +1006,7 @@ enum MetricsFeatureTests {
                                        compressorPages: 0, tagStoragePages: 0) == 16,
                "memory used clamps impossible used memory")
 
-        var vmStats = vorssaint_vm_statistics64_rev3_t()
+        var vmStats = macbar_vm_statistics64_rev3_t()
         vmStats.wire_count = 2
         vmStats.purgeable_count = 3
         vmStats.compressor_page_count = 4

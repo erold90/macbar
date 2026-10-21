@@ -12,7 +12,7 @@ enum ClipboardSensitiveTextPreferenceTests {
         suite.expect(Defaults.registeredDefaults[legacyKey] == nil,
                      "the old enabled-by-default filter is no longer registered")
 
-        let domain = "com.vorssaint.tests.clipboard-sensitive-opt-in.\(UUID().uuidString)"
+        let domain = "com.erold90.macbar.tests.clipboard-sensitive-opt-in.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: domain)!
         // Registration is process-wide, so later migration checks need it back.
         let registrationDomain = UserDefaults.standard.volatileDomain(

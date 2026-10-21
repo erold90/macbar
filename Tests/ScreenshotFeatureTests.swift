@@ -22,7 +22,7 @@ enum ScreenshotFeatureTests {
         }
 
         let featureRuntimeSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/App/FeatureRuntime.swift",
+            contentsOfFile: "Sources/MacBar/App/FeatureRuntime.swift",
             encoding: .utf8)) ?? ""
         let layoutDictionary = [kTISPropertyInputSourceType: kTISTypeKeyboardLayout] as CFDictionary
         let layoutSources = (TISCreateInputSourceList(layoutDictionary, true)?.takeRetainedValue()
@@ -75,7 +75,7 @@ enum ScreenshotFeatureTests {
         suite.expect(copyRetry.record(for: retryCaptureID, availableRecords: [copyRecord]) == nil,
                      "successful copying clears the pending retry")
 
-        let uploadDefaultsName = "com.vorssaint.tests.screenshot-upload.\(UUID().uuidString)"
+        let uploadDefaultsName = "com.erold90.macbar.tests.screenshot-upload.\(UUID().uuidString)"
         let uploadDefaults = UserDefaults(suiteName: uploadDefaultsName)!
         defer { uploadDefaults.removePersistentDomain(forName: uploadDefaultsName) }
         suite.expect(ScreenshotShareDuration.saved(in: uploadDefaults) == .oneHour,
@@ -127,11 +127,11 @@ enum ScreenshotFeatureTests {
 
         let ownScreenshotWindows: Set<CGWindowID> = [11, 12, 13]
         let protectedScreenshotWindows: Set<CGWindowID> = [12, 99]
-        suite.expect(Defaults.registeredDefaults[DefaultsKey.screenshotHideVorssaintWindows]
+        suite.expect(Defaults.registeredDefaults[DefaultsKey.screenshotHideMacBarWindows]
                 as? Bool == true,
-               "screenshots hide Vorssaint windows by default")
+               "screenshots hide MacBar windows by default")
         suite.expect(SettingsBackupSupport.exportKeys().contains(
-            DefaultsKey.screenshotHideVorssaintWindows),
+            DefaultsKey.screenshotHideMacBarWindows),
                "the screenshot window visibility preference travels in backups")
         // An editor or a pinned capture is an ordinary window, so the
         // visibility preference has to reach it; the overlays and HUDs taking
@@ -151,57 +151,57 @@ enum ScreenshotFeatureTests {
         ) == ownScreenshotWindows,
         "a recording is exempt from the preference and protects both kinds")
         suite.expect(ScreenshotCapturePolicy.excludedWindowIDs(
-            hideVorssaintWindows: false,
+            hideMacBarWindows: false,
             ownWindowIDs: ownScreenshotWindows,
             protectedWindowIDs: ScreenshotCapturePolicy.protectedWindowIDs(
                 workflowWindowIDs: workflowWindows,
                 contentWindowIDs: contentWindows,
                 honoursVisibilityPreference: true)
         ) == workflowWindows,
-        "showing Vorssaint windows leaves an editor and a pin in the capture")
+        "showing MacBar windows leaves an editor and a pin in the capture")
         suite.expect(ScreenshotCapturePolicy.canPickWindow(
             13,
             isOwnWindow: true,
-            hideVorssaintWindows: false,
+            hideMacBarWindows: false,
             protectedWindowIDs: ScreenshotCapturePolicy.protectedWindowIDs(
                 workflowWindowIDs: workflowWindows,
                 contentWindowIDs: contentWindows,
                 honoursVisibilityPreference: true)
-        ), "a pinned capture can be picked while Vorssaint windows are shown")
+        ), "a pinned capture can be picked while MacBar windows are shown")
         suite.expect(ScreenshotCapturePolicy.excludedWindowIDs(
-            hideVorssaintWindows: true,
+            hideMacBarWindows: true,
             ownWindowIDs: ownScreenshotWindows,
             protectedWindowIDs: protectedScreenshotWindows
         ) == ownScreenshotWindows,
-        "screenshot hiding Vorssaint excludes every own window")
+        "screenshot hiding MacBar excludes every own window")
         suite.expect(ScreenshotCapturePolicy.excludedWindowIDs(
-            hideVorssaintWindows: false,
+            hideMacBarWindows: false,
             ownWindowIDs: ownScreenshotWindows,
             protectedWindowIDs: protectedScreenshotWindows
         ) == [12],
-        "screenshot keeps protected windows excluded while Vorssaint is visible")
+        "screenshot keeps protected windows excluded while MacBar is visible")
         suite.expect(ScreenshotCapturePolicy.canPickWindow(
             7,
             isOwnWindow: false,
-            hideVorssaintWindows: true,
+            hideMacBarWindows: true,
             protectedWindowIDs: protectedScreenshotWindows
         ), "screenshot can always pick an ordinary external window")
         suite.expect(!ScreenshotCapturePolicy.canPickWindow(
             11,
             isOwnWindow: true,
-            hideVorssaintWindows: true,
+            hideMacBarWindows: true,
             protectedWindowIDs: protectedScreenshotWindows
-        ), "screenshot cannot pick a Vorssaint window while hiding them")
+        ), "screenshot cannot pick a MacBar window while hiding them")
         suite.expect(ScreenshotCapturePolicy.canPickWindow(
             11,
             isOwnWindow: true,
-            hideVorssaintWindows: false,
+            hideMacBarWindows: false,
             protectedWindowIDs: protectedScreenshotWindows
-        ), "screenshot can pick an ordinary Vorssaint window when visible")
+        ), "screenshot can pick an ordinary MacBar window when visible")
         suite.expect(!ScreenshotCapturePolicy.canPickWindow(
             12,
             isOwnWindow: true,
-            hideVorssaintWindows: false,
+            hideMacBarWindows: false,
             protectedWindowIDs: protectedScreenshotWindows
         ), "screenshot cannot pick its own protected capture UI")
         islandCaptureChecks(suite)
@@ -350,7 +350,7 @@ enum ScreenshotFeatureTests {
             target: capturedWindow, frontToBack: [capturedWindow]) == nil,
                "a window with nothing stacked on it keeps the ordinary single-window capture")
         let captureEngineSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotCaptureEngine.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotCaptureEngine.swift",
             encoding: .utf8)) ?? ""
         // A sheet is often exactly as wide as the window it drops out of, so
         // the rule has to take one that matches an edge rather than shrink from
@@ -393,7 +393,7 @@ enum ScreenshotFeatureTests {
         // gate before its AX call so window capture never starts an
         // Accessibility round trip merely because geometry found a candidate.
         let screenshotCaptureEngineSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotCaptureEngine.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotCaptureEngine.swift",
             encoding: .utf8)) ?? ""
         let captureWindowBody = (screenshotCaptureEngineSource
             .components(separatedBy: "static func captureWindow(").last ?? "")
@@ -905,7 +905,7 @@ enum ScreenshotFeatureTests {
                 && !persistentPolicy.takesFocus && persistentPolicy.closesOnCollapse
                 && persistentPolicy.showsDismissButton,
                "preview presentation keeps timed focus behavior while persistent confirmations stay dismissible without taking focus")
-        let focusDefaultsDomain = "com.vorssaint.tests.screenshot-preview-focus.\(UUID().uuidString)"
+        let focusDefaultsDomain = "com.erold90.macbar.tests.screenshot-preview-focus.\(UUID().uuidString)"
         let focusDefaults = UserDefaults(suiteName: focusDefaultsDomain)!
         defer { focusDefaults.removePersistentDomain(forName: focusDefaultsDomain) }
         focusDefaults.set(true, forKey: DefaultsKey.screenshotPreviewTakesFocus)
@@ -954,7 +954,7 @@ enum ScreenshotFeatureTests {
                                                               confirmationEnabled: false),
                "automatic actions honor confirmation preferences while failed or partial actions still expose recovery controls")
         // The decision route makes after the action ran, read from settings.
-        let routeDefaultsDomain = "com.vorssaint.tests.screenshot-preview-route.\(UUID().uuidString)"
+        let routeDefaultsDomain = "com.erold90.macbar.tests.screenshot-preview-route.\(UUID().uuidString)"
         let routeDefaults = UserDefaults(suiteName: routeDefaultsDomain)!
         defer { routeDefaults.removePersistentDomain(forName: routeDefaultsDomain) }
         func routePreview(_ action: ScreenshotDefaultAction, saved: Bool = false,
@@ -986,7 +986,7 @@ enum ScreenshotFeatureTests {
                     dismissInterval: TimeInterval(ScreenshotSupport.defaultConfirmationPreviewDuration)),
                "a stored duration that is not a number falls back to the default instead of staying until dismissed")
         let screenshotRouteBody = ((try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotService.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotService.swift",
             encoding: .utf8)) ?? "")
             .components(separatedBy: "    private func route(_ capture:").dropFirst().first?
             .components(separatedBy: "\n    }\n").first ?? ""
@@ -1010,7 +1010,7 @@ enum ScreenshotFeatureTests {
         suite.expect(!ScreenshotSupport.selectionAcceptsPointerInput(sessionIsOver: true,
                                                                capturePending: true),
                "both at once still ignores the pointer")
-        let captureMenuSuite = "com.vorssaint.tests.capture-menu.\(UUID().uuidString)"
+        let captureMenuSuite = "com.erold90.macbar.tests.capture-menu.\(UUID().uuidString)"
         let captureMenuDefaults = UserDefaults(suiteName: captureMenuSuite)!
         defer { captureMenuDefaults.removePersistentDomain(forName: captureMenuSuite) }
         for tool in ScreenCaptureTool.allCases {
@@ -1053,7 +1053,7 @@ enum ScreenshotFeatureTests {
                 == [.screenshot, .recording, .text, .color],
                "the capture chooser keeps a stable order for every installed mode")
         let captureSettingsSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Settings/ScreenCaptureSettings.swift",
+            contentsOfFile: "Sources/MacBar/UI/Settings/ScreenCaptureSettings.swift",
             encoding: .utf8)) ?? ""
         suite.expect(captureSettingsSource.contains("selectedTool")
                 && captureSettingsSource.contains("ScreenCaptureToolPicker(tools: availableTools")
@@ -1061,7 +1061,7 @@ enum ScreenshotFeatureTests {
                 && captureSettingsSource.contains("RecentCapturesShortcutRows()"),
                "the capture page keeps tool and shared-history shortcuts in the top section")
         let recentCaptureServiceSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/RecentCaptureService.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/RecentCaptureService.swift",
             encoding: .utf8)) ?? ""
         suite.expect(recentCaptureServiceSource.contains("QuickToolHotkey(id: 21)")
                 && recentCaptureServiceSource.contains(
@@ -1108,27 +1108,27 @@ enum ScreenshotFeatureTests {
             for: .screenshot,
             screenshotFreeze: false,
             screenshotIncludePointer: true,
-            screenshotHideVorssaintWindows: true)
+            screenshotHideMacBarWindows: true)
         let recorderPolicy = ScreenshotSupport.unifiedCapturePolicy(
             for: .recording,
             screenshotFreeze: false,
             screenshotIncludePointer: true,
-            screenshotHideVorssaintWindows: true)
+            screenshotHideMacBarWindows: true)
         let textPolicy = ScreenshotSupport.unifiedCapturePolicy(
             for: .text,
             screenshotFreeze: false,
             screenshotIncludePointer: true,
-            screenshotHideVorssaintWindows: true)
+            screenshotHideMacBarWindows: true)
         suite.expect(liveScreenshotPolicy == .init(freeze: false, includePointer: true,
-                                             hideVorssaintWindows: true,
+                                             hideMacBarWindows: true,
                                              keepsContentWindowsOut: true,
                                              usesGeometry: false)
                 && recorderPolicy == .init(freeze: true, includePointer: false,
-                                           hideVorssaintWindows: false,
+                                           hideMacBarWindows: false,
                                            keepsContentWindowsOut: true,
                                            usesGeometry: true)
                 && textPolicy == .init(freeze: true, includePointer: false,
-                                       hideVorssaintWindows: true,
+                                       hideMacBarWindows: true,
                                        keepsContentWindowsOut: true,
                                        usesGeometry: false),
                "switching capture mode rebuilds the frozen frame, pointer and window policy")
@@ -1136,12 +1136,12 @@ enum ScreenshotFeatureTests {
             for: .color,
             screenshotFreeze: false,
             screenshotIncludePointer: true,
-            screenshotHideVorssaintWindows: true)
+            screenshotHideMacBarWindows: true)
         suite.expect(textPolicy.sharesSource(with: colorPolicy)
                 && !textPolicy.sharesSource(with: recorderPolicy)
                 && !textPolicy.sharesSource(with: liveScreenshotPolicy),
                "only freeze, pointer and window policy decide whether a mode needs its own photograph")
-        // With "Hide Vorssaint windows" off, freeze on and the pointer off,
+        // With "Hide MacBar windows" off, freeze on and the pointer off,
         // every tool wants the same pixels except for the editors and pins
         // recording keeps out, so switching to or from recording has to
         // re-photograph and re-list the pickable windows (issue #780).
@@ -1150,13 +1150,13 @@ enum ScreenshotFeatureTests {
                 for: $0,
                 screenshotFreeze: true,
                 screenshotIncludePointer: false,
-                screenshotHideVorssaintWindows: false))
+                screenshotHideMacBarWindows: false))
         })
         suite.expect(shownWindowPolicies[.recording]?.keepsContentWindowsOut == true
                 && shownWindowPolicies[.screenshot]?.keepsContentWindowsOut == false
                 && shownWindowPolicies[.text]?.keepsContentWindowsOut == false
                 && shownWindowPolicies[.color]?.keepsContentWindowsOut == false,
-               "only recording keeps editors and pins out while Vorssaint windows are shown")
+               "only recording keeps editors and pins out while MacBar windows are shown")
         suite.expect(shownWindowPolicies[.recording].map { recording in
             [ScreenCaptureTool.screenshot, .text, .color].allSatisfy { tool in
                 guard let other = shownWindowPolicies[tool] else { return false }
@@ -1175,10 +1175,10 @@ enum ScreenshotFeatureTests {
                 for: $0,
                 screenshotFreeze: true,
                 screenshotIncludePointer: false,
-                screenshotHideVorssaintWindows: true)
+                screenshotHideMacBarWindows: true)
         }
         suite.expect(hiddenWindowPolicies.allSatisfy(\.keepsContentWindowsOut),
-               "hiding Vorssaint windows keeps editors and pins out of every tool")
+               "hiding MacBar windows keeps editors and pins out of every tool")
         suite.expect(ScreenshotSupport.captureGuideIsVisible(pointerOnDisplay: true,
                                                        selectionInProgress: false,
                                                        capturePending: false)
@@ -1284,7 +1284,7 @@ enum ScreenshotFeatureTests {
                                                          storedRegionDisplayIsAvailable: true),
                "the colour picker has no region to repeat, matching repeatLastRegion's own guard")
         let captureSelectionSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotSelectionController.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotSelectionController.swift",
             encoding: .utf8)) ?? ""
         suite.expect(captureSelectionSource.contains(
             "PassThroughHostingView(fixedFrameRootView: CaptureGuideView(")
@@ -1313,7 +1313,7 @@ enum ScreenshotFeatureTests {
         // capture first, teardown invalidates pending uploads, and only a
         // preview made from that new capture can withhold it on discard.
         let screenshotServiceCode = ((try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotService.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotService.swift",
             encoding: .utf8)) ?? "").components(separatedBy: "\n")
             .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
             .joined(separator: "\n")
@@ -1344,7 +1344,7 @@ enum ScreenshotFeatureTests {
         // In the island the menu arrow is hidden, so a click there must open
         // the durations rather than publish at once.
         let shareMenuCode = ((try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotQuickPreviewController.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotQuickPreviewController.swift",
             encoding: .utf8)) ?? "").components(separatedBy: "@ViewBuilder private var shareMenu: some View {")
             .dropFirst().first?.components(separatedBy: "private var shareDurations").first ?? ""
         let embeddedShareMenu = shareMenuCode.components(separatedBy: "} else {").first ?? ""
@@ -1354,7 +1354,7 @@ enum ScreenshotFeatureTests {
                 && floatingShareMenu.contains("primaryAction: {\n                share(.saved())"),
                "the island's link button opens the durations on a click, while the floating preview keeps its split button")
         let captureServiceSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenCaptureService.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenCaptureService.swift",
             encoding: .utf8)) ?? ""
         suite.expect(!captureServiceSource.contains("replaceSelection"),
                "the capture service does not cancel and recreate selection controllers when changing modes")
@@ -1367,7 +1367,7 @@ enum ScreenshotFeatureTests {
         // reach mouseDown. Comments are stripped so prose naming the API
         // cannot answer for the code.
         let quickPreviewSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotQuickPreviewController.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotQuickPreviewController.swift",
             encoding: .utf8)) ?? ""
         suite.expect(!quickPreviewSource.isEmpty, "the screenshot preview source reads back for its shape check")
         let quickPreviewCode = quickPreviewSource.components(separatedBy: "\n")
@@ -1412,7 +1412,7 @@ enum ScreenshotFeatureTests {
         // The overlay view claims that click; comments are stripped so prose
         // cannot answer for the code.
         let selectionSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotSelectionController.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotSelectionController.swift",
             encoding: .utf8)) ?? ""
         let overlayViewBody = selectionSource.components(separatedBy: "\n")
             .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
@@ -1461,7 +1461,7 @@ enum ScreenshotFeatureTests {
         // "1960x1274" beside a screenshot editor that already read
         // "2940 \u{00D7} 1912 px", and the letter x is the tell.
         let recorderEditorSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Recorder/RecorderEditorView.swift",
+            contentsOfFile: "Sources/MacBar/UI/Recorder/RecorderEditorView.swift",
             encoding: .utf8)) ?? ""
         suite.expect(!recorderEditorSource.isEmpty, "the recorder editor source reads back for its shape check")
         suite.expect(recorderEditorSource.contains("\\(Int(size.width)) \u{00D7} \\(Int(size.height))"),
@@ -1470,7 +1470,7 @@ enum ScreenshotFeatureTests {
         // borrowed the shape, pointer and background labels as subtitles, so
         // two of the three said their own name back in English.
         let inspectorSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Recorder/RecorderInspector.swift",
+            contentsOfFile: "Sources/MacBar/UI/Recorder/RecorderInspector.swift",
             encoding: .utf8)) ?? ""
         suite.expect(!inspectorSource.isEmpty, "the recorder inspector source reads back for its shape check")
         suite.expect(!inspectorSource.contains("subtitle"),
@@ -1518,8 +1518,8 @@ enum ScreenshotFeatureTests {
             .map(\.count).max() ?? 0
         suite.expect(widestBackdropLabel >= 10,
                "the backdrop labels are long enough somewhere for the column to matter")
-        for path in ["Sources/Vorssaint/UI/Screenshot/ScreenshotBackdropPopover.swift",
-                     "Sources/Vorssaint/UI/Recorder/RecorderInspector.swift"] {
+        for path in ["Sources/MacBar/UI/Screenshot/ScreenshotBackdropPopover.swift",
+                     "Sources/MacBar/UI/Recorder/RecorderInspector.swift"] {
             let code = (try? String(contentsOfFile: path, encoding: .utf8)) ?? ""
             suite.expect(!code.isEmpty, "the slider source reads back for its shape check")
             let pinned = code.components(separatedBy: "\n")
@@ -1641,7 +1641,7 @@ enum ScreenshotFeatureTests {
                                                           now: 100, lastPointerActivity: -.infinity),
                "a posted Command-C before any canvas gesture still copies")
         let editorControllerSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotEditorController.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotEditorController.swift",
             encoding: .utf8)) ?? ""
         suite.expect(editorControllerSource.contains("ScreenshotSupport.editorIgnoresPostedCopy(")
                 && editorControllerSource.contains("self.model.notePointerActivity()")
@@ -1811,13 +1811,13 @@ enum ScreenshotFeatureTests {
                 && !ScreenshotSupport.canReorder([], moving: layered[0].id, .backward),
                "an annotation that is not there can never be reordered")
         let screenshotEditorSource = ((try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotEditorController.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotEditorController.swift",
             encoding: .utf8)) ?? "")
             .split(separator: "\n", omittingEmptySubsequences: false)
             .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
             .joined(separator: "\n")
         let screenshotSupportSource = ((try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/ScreenshotSupport.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/ScreenshotSupport.swift",
             encoding: .utf8)) ?? "")
             .split(separator: "\n", omittingEmptySubsequences: false)
             .filter { !$0.trimmingCharacters(in: .whitespaces).hasPrefix("//") }
@@ -2759,7 +2759,7 @@ enum ScreenshotFeatureTests {
                 && screenshotEditorSource.contains("if usesStroke { annotations[index].stroke = stroke }"),
                "picking text or a highlight never records a thickness edit it has no control for")
         let screenshotEditorViewSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Screenshot/ScreenshotEditorView.swift",
+            contentsOfFile: "Sources/MacBar/UI/Screenshot/ScreenshotEditorView.swift",
             encoding: .utf8)) ?? ""
         suite.expect(screenshotEditorViewSource.contains("isHovered || isActive ? 0.9 : 0.55"),
                "tool shortcut labels stay visible on idle rail buttons")
@@ -2938,11 +2938,11 @@ enum ScreenshotFeatureTests {
                "backdrop style and presets register empty")
 
         // Watermark: the mark of your own that rides along every capture.
-        let textMark = ScreenshotSupport.WatermarkStyle(kind: .text, text: "  Vorssaint  ",
+        let textMark = ScreenshotSupport.WatermarkStyle(kind: .text, text: "  MacBar  ",
                                                         color: "blue", anchor: .topLeading,
                                                         size: 0.5, opacity: 0.3, rotation: 30)
         let markRoundTrip = ScreenshotSupport.WatermarkStyle.decoded(textMark.encoded())
-        suite.expect(markRoundTrip == textMark.sanitized() && markRoundTrip.text == "Vorssaint"
+        suite.expect(markRoundTrip == textMark.sanitized() && markRoundTrip.text == "MacBar"
                 && markRoundTrip.anchor == .topLeading && markRoundTrip.rotation == 30,
                "a watermark style round-trips through JSON, trimmed")
         suite.expect(ScreenshotSupport.WatermarkStyle.decoded(nil).kind == .none
@@ -3352,7 +3352,7 @@ enum ScreenshotFeatureTests {
                 }
             }
             GlobalShortcut.refreshLayoutLabels()
-            let suiteName = "com.vorssaint.tests.editor-bindings.\(UUID().uuidString)"
+            let suiteName = "com.erold90.macbar.tests.editor-bindings.\(UUID().uuidString)"
             let prefs = UserDefaults(suiteName: suiteName)!
             defer { prefs.removePersistentDomain(forName: suiteName) }
             prefs.set(false, forKey: DefaultsKey.screenshotToolShortcutsEnabled)
@@ -3614,7 +3614,7 @@ enum ScreenshotFeatureTests {
         suite.expect(Defaults.registeredDefaults[DefaultsKey.screenshotAddToShelf] as? Bool == false
                 && SettingsBackupSupport.exportKeys().contains(DefaultsKey.screenshotAddToShelf),
                "adding captures to the shelf ships off and travels in settings backups")
-        let captureShelfSuite = "com.vorssaint.tests.capture-shelf.\(UUID().uuidString)"
+        let captureShelfSuite = "com.erold90.macbar.tests.capture-shelf.\(UUID().uuidString)"
         let captureShelfDefaults = UserDefaults(suiteName: captureShelfSuite)!
         defer { captureShelfDefaults.removePersistentDomain(forName: captureShelfSuite) }
         func capturesGoToShelf(option: Bool, installed: Bool, on: Bool) -> Bool {
@@ -3682,7 +3682,7 @@ enum ScreenshotFeatureTests {
             developerOverride: "https://test.example/")
         suite.expect(testShareEndpoint.absoluteString == "https://test.example"
                 && ScreenshotSharingSupport.endpoint(
-                    bundleIdentifier: "com.vorssaint.utils",
+                    bundleIdentifier: "com.erold90.macbar",
                     developerOverride: "https://test.example").absoluteString
                     == ScreenshotSharingSupport.productionEndpoint.absoluteString
                 && ScreenshotSharingSupport.endpoint(
@@ -3798,7 +3798,7 @@ enum ScreenshotFeatureTests {
                 && GlobalShortcutRole.scratchpad.feature == .scratchpad,
                "the scratchpad shortcut role gates on its toggle and feature")
         let scratchpadViewSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/UI/Scratchpad/ScratchpadView.swift",
+            contentsOfFile: "Sources/MacBar/UI/Scratchpad/ScratchpadView.swift",
             encoding: .utf8)) ?? ""
         let scratchpadHitTargetContracts = [
             "Image(systemName: \"plus\")\n                    .font(.system(size: 12, weight: .semibold))\n                    .frame(width: 22, height: 22)\n                    .contentShape(Rectangle())",
@@ -4007,10 +4007,10 @@ enum ScreenshotFeatureTests {
 
         // Muting every microphone, not just the one the Mac is set to: an app
         // pointed at a device of its own has to go silent too.
-        suite.expect(MicMuteSupport.isOwnDevice(name: "Vorssaint Mixer")
-                && MicMuteSupport.isOwnDevice(name: "Vorssaint AirPlay")
-                && MicMuteSupport.isOwnDevice(name: "Vorssaint Island Levels")
-                && MicMuteSupport.isOwnDevice(name: "Vorssaint Recorder")
+        suite.expect(MicMuteSupport.isOwnDevice(name: "MacBar Mixer")
+                && MicMuteSupport.isOwnDevice(name: "MacBar AirPlay")
+                && MicMuteSupport.isOwnDevice(name: "MacBar Island Levels")
+                && MicMuteSupport.isOwnDevice(name: "MacBar Recorder")
                 && !MicMuteSupport.isOwnDevice(name: "MacBook Air Microphone"),
                "the mute skips the app's own aggregate devices and no other")
         suite.expect(!MicMuteSupport.shouldSaveVolume(nil)
@@ -4046,7 +4046,7 @@ enum ScreenshotFeatureTests {
                 && MicMuteSupport.absentClaims(recorded: ["headset"], present: []) == ["headset"],
                "a sweep keeps the claim on a microphone this app muted that is unplugged right now, so it is released when it returns")
         let micMuteServiceSource = (try? String(
-            contentsOfFile: "Sources/Vorssaint/Services/QuickTools/MicMuteService.swift",
+            contentsOfFile: "Sources/MacBar/Services/QuickTools/MicMuteService.swift",
             encoding: .utf8)) ?? ""
         let reapply = micMuteServiceSource.range(of: "private func reapplyIfNeeded() {")
             .map { micMuteServiceSource[$0.lowerBound...] }
@@ -4144,7 +4144,7 @@ enum ScreenshotFeatureTests {
         GlobalShortcut.refreshLayoutLabels()
     }
 
-    /// The island follows "Show in screenshots and videos" in Vorssaint's own
+    /// The island follows "Show in screenshots and videos" in MacBar's own
     /// captures too, area selections included, except while it is the tool
     /// taking the picture.
     private static func islandCaptureChecks(_ suite: TestSuite) {
@@ -4168,19 +4168,19 @@ enum ScreenshotFeatureTests {
             // What NotchService protects: the island windows not shown.
             let protected = islandWindows.subtracting(visible).union([overlay])
             let hidden = ScreenshotCapturePolicy.excludedWindowIDs(
-                hideVorssaintWindows: true, ownWindowIDs: ownWindows,
+                hideMacBarWindows: true, ownWindowIDs: ownWindows,
                 protectedWindowIDs: protected, islandWindowIDs: visible)
             suite.expect(hidden == ownWindows.subtracting(visible),
-                         "hiding Vorssaint windows leaves the shown island in (capture tool: \(tool))")
+                         "hiding MacBar windows leaves the shown island in (capture tool: \(tool))")
             let kept = ScreenshotCapturePolicy.excludedWindowIDs(
-                hideVorssaintWindows: false, ownWindowIDs: ownWindows,
+                hideMacBarWindows: false, ownWindowIDs: ownWindows,
                 protectedWindowIDs: protected, islandWindowIDs: visible)
             suite.expect(kept == protected,
-                         "showing Vorssaint windows still keeps the capture interface out (capture tool: \(tool))")
+                         "showing MacBar windows still keeps the capture interface out (capture tool: \(tool))")
         }
         // Watch reads an area and must never see the island, whatever the preference says.
         suite.expect(ScreenshotCapturePolicy.excludedWindowIDs(
-            hideVorssaintWindows: true, ownWindowIDs: ownWindows,
+            hideMacBarWindows: true, ownWindowIDs: ownWindows,
             protectedWindowIDs: islandWindows.union([overlay]),
             islandWindowIDs: shown(preference: true, tool: false)) == ownWindows,
                      "a caller that protects the island keeps it out even when it shows in captures")

@@ -81,7 +81,7 @@ enum SpacesOrderTests {
     }
 
     static func run(_ suite: TestSuite) {
-        let name = "com.vorssaint.tests.spaces-order.\(UUID().uuidString)"
+        let name = "com.erold90.macbar.tests.spaces-order.\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: name)!
         defer { defaults.removePersistentDomain(forName: name) }
         let marker = DefaultsKey.spacesOrderRestore

@@ -315,7 +315,7 @@ enum CodexAccountLimitsTests {
     }
 
     private static func lifecycle(_ suite: TestSuite, profiles: [CodexAccountProfile]) {
-        let domain = "com.vorssaint.tests.codex-accounts." + UUID().uuidString
+        let domain = "com.erold90.macbar.tests.codex-accounts." + UUID().uuidString
         let defaults = UserDefaults(suiteName: domain)!
         defer { defaults.removePersistentDomain(forName: domain) }
         // The registration domain is shared with other suites, so this one

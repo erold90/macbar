@@ -115,7 +115,7 @@ enum UninstallerCommandBarCleanupTests {
     }
 
     static func run(_ suite: TestSuite) {
-        let domain = "com.vorssaint.tests.uninstall-command-bar.\(UUID())"
+        let domain = "com.erold90.macbar.tests.uninstall-command-bar.\(UUID())"
         let defaults = UserDefaults(suiteName: domain)!
         Preferences.standard = defaults
         let fm = FileManager.default
@@ -124,9 +124,9 @@ enum UninstallerCommandBarCleanupTests {
         let removed = root.appendingPathComponent("Removed.app")
         let survivor = root.appendingPathComponent("Other Copy.app")
         let other = root.appendingPathComponent("Unrelated.app")
-        let bundleID = "org.vorssaint.fixture.shared"
+        let bundleID = "org.macbar.fixture.shared"
         let sharedKey = "app.bundle.\(bundleID)"
-        let otherKey = "app.bundle.org.vorssaint.fixture.other"
+        let otherKey = "app.bundle.org.macbar.fixture.other"
         let pathKey = "app.\(removed.path)"
         let service = Service.shared
         let shortcut = GlobalShortcut(keyCode: 11, modifiers: [.option, .command])
@@ -163,7 +163,7 @@ enum UninstallerCommandBarCleanupTests {
             ]), forKey: DefaultsKey.commandBarUsage)
             service.cachedApps = [App(bundleID: bundleID, url: removed),
                                   App(bundleID: bundleID, url: survivor),
-                                  App(bundleID: "org.vorssaint.fixture.other", url: other)]
+                                  App(bundleID: "org.macbar.fixture.other", url: other)]
             service.uninstallSelectionEntries = [Entry(uninstallAppURL: removed)]
             service.rowHotkeys = [Hotkey(id: 200)]
             service.refreshes = 0

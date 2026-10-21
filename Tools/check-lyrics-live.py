@@ -91,7 +91,7 @@ def main():
     parser.add_argument("--metrics", action="store_true", help="print per-track request counts without lyrics")
     parser.add_argument("--title", action="append", help="Replay only these exact fixture titles (repeatable)")
     options = parser.parse_args()
-    service_path = "Sources/Vorssaint/Services/Notch/NotchLyricsService.swift"
+    service_path = "Sources/MacBar/Services/Notch/NotchLyricsService.swift"
     bodies = "".join(sourcegen.declaration(service_path, prefix) for prefix in [
         "    private func load(", "    private func acceptsResult(",
         "    private func finish(", "    private func search(",
@@ -116,13 +116,13 @@ final class Probe {
     var lastAliasRequest: TimeInterval = 0
     func start(_ track: NotchMusicIdentity) { aliasWork?.cancel(); session?.invalidateAndCancel(); generation = UUID(); memory.select(track); load(track) }
 """ + bodies + "}\nprivate final class NotchLyricsDownload:" + downloader
-    with tempfile.TemporaryDirectory(prefix="vorssaint-lyrics-live-") as folder:
+    with tempfile.TemporaryDirectory(prefix="macbar-lyrics-live-") as folder:
         directory = Path(folder)
         for name, content in [("Stubs.swift", STUBS), ("Probe.swift", probe), ("main.swift", MAIN)]:
             (directory / name).write_text(content)
         executable = directory / "probe"
         subprocess.run(["swiftc", str(directory / "Stubs.swift"),
-                        str(ROOT / "Sources/Vorssaint/Services/Notch/NotchLyricsSupport.swift"),
+                        str(ROOT / "Sources/MacBar/Services/Notch/NotchLyricsSupport.swift"),
                         str(directory / "Probe.swift"), str(directory / "main.swift"),
                         "-o", str(executable)], check=True)
         import json

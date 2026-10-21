@@ -88,7 +88,7 @@ enum NotchMascotTests {
     }
 
     private static func preferenceContracts(_ suite: TestSuite) {
-        let domain = "com.vorssaint.tests.notch-mascot"
+        let domain = "com.erold90.macbar.tests.notch-mascot"
         let defaults = UserDefaults(suiteName: domain)!
         defaults.removePersistentDomain(forName: domain)
         defer { defaults.removePersistentDomain(forName: domain) }
@@ -404,7 +404,7 @@ enum NotchMascotTests {
     /// it last did anything, with a yawn where it rests, and still comes out
     /// to visit and to react.
     private static func hidingContracts(_ suite: TestSuite) {
-        let domain = "com.vorssaint.tests.notch-mascot-hiding"
+        let domain = "com.erold90.macbar.tests.notch-mascot-hiding"
         let defaults = UserDefaults(suiteName: domain)!
         defaults.removePersistentDomain(forName: domain)
         defer { defaults.removePersistentDomain(forName: domain) }

@@ -2,16 +2,16 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Copyright (C) 2026 Vorssaint
 
-# Cleanly removes Vorssaint and every piece of system state it created:
+# Cleanly removes MacBar and every piece of system state it created:
 # the fan helper daemon, the login item, TCC permissions, preferences, saved
 # state, the app's own data folder and (if present) the password-free
 # closed-lid sudoers rule. Leaves no dead entries behind.
-# Also clears the pre-rename "Vorssaint Utils.app" if it is still around.
+# Also clears the pre-rename "MacBar Utils.app" if it is still around.
 set -uo pipefail
 
-BUNDLE="com.vorssaint.utils"
-APP="/Applications/Vorssaint.app"
-LEGACY_APP="/Applications/Vorssaint Utils.app"
+BUNDLE="com.erold90.macbar"
+APP="/Applications/MacBar.app"
+LEGACY_APP="/Applications/MacBar Utils.app"
 
 # A readable domain with a missing key is different from a failed read. Export
 # the whole domain first, including an empty dictionary when it does not exist.
@@ -113,8 +113,8 @@ spaces_removal_state() {
 }
 
 echo "▸ Quitting…"
-pkill -x Vorssaint 2>/dev/null || true
-pkill -x VorssaintUtils 2>/dev/null || true
+pkill -x MacBar 2>/dev/null || true
+pkill -x MacBarUtils 2>/dev/null || true
 sleep 0.5
 
 # Detach from the system from inside whichever bundle still exists: unregisters
@@ -125,7 +125,7 @@ sleep 0.5
 # check after the loop settles what its absence or failure left behind.
 detached=1
 ran_app=0
-for candidate in "$APP/Contents/MacOS/Vorssaint" "$LEGACY_APP/Contents/MacOS/VorssaintUtils"; do
+for candidate in "$APP/Contents/MacOS/MacBar" "$LEGACY_APP/Contents/MacOS/MacBarUtils"; do
     if [[ -x "$candidate" ]]; then
         echo "▸ Detaching the fan helper and login item, restoring sleep and Space rearranging…"
         ran_app=1
@@ -148,10 +148,10 @@ fi
 
 # Whether the closed-lid feature is the reason sleep is off. Read here because
 # the preferences that hold it are deleted a few lines below, and without it a
-# check on the setting alone would blame Vorssaint for a `pmset disablesleep 1`
+# check on the setting alone would blame MacBar for a `pmset disablesleep 1`
 # that somebody else, or the user, had set.
 sleep_was_ours=0
-[[ "$(defaults read "$BUNDLE" vorssDisabledSleep 2>/dev/null)" == "1" ]] && sleep_was_ours=1
+[[ "$(defaults read "$BUNDLE" macbarDisabledSleep 2>/dev/null)" == "1" ]] && sleep_was_ours=1
 
 # Whether Space rearranging is still owed back. `--uninstall` clears this
 # marker once the setting is back, so one still here means that restore failed
@@ -202,14 +202,14 @@ rm -f "$HOME/Library/Preferences/ByHost/$BUNDLE".*.plist(N)
 # same files the app looks for. Each path is checked on its own. zsh passes an
 # unquoted string to a command as a single word, and one `ls` over all three
 # fails as soon as any of them is missing.
-RULES=(/etc/sudoers.d/vorssaint-clamshell /etc/sudoers.d/vorssaint-utils-clamshell /etc/sudoers.d/vorss-clamshell)
+RULES=(/etc/sudoers.d/macbar-clamshell /etc/sudoers.d/macbar-utils-clamshell /etc/sudoers.d/macbar-clamshell)
 found_rules=()
 for rule in "${RULES[@]}"; do
     [[ -e "$rule" ]] && found_rules+=("$rule")
 done
 if (( ${#found_rules} )); then
     echo "▸ Removing closed-lid sudoers rule (asks for your admin password)…"
-    osascript -e "do shell script \"rm -f $found_rules\" with administrator privileges with prompt \"Vorssaint uninstaller\"" || true
+    osascript -e "do shell script \"rm -f $found_rules\" with administrator privileges with prompt \"MacBar uninstaller\"" || true
 fi
 
 # `--uninstall` restores sleep, but it runs before the app has an
@@ -246,36 +246,36 @@ case "$(spaces_removal_state "$spaces_owed" "$spaces_journal")" in
 esac
 
 if (( detached == 0 && sleep_stuck == 0 && sleep_unknown == 0 && spaces_stuck == 0 && spaces_unloaded == 0 && spaces_unknown == 0 )); then
-    echo "✓ Vorssaint fully removed."
+    echo "✓ MacBar fully removed."
     exit 0
 fi
 if (( detached )); then
-    echo "⚠ Vorssaint removed, but its fan helper is still registered with the system." >&2
-    echo "  Reinstall Vorssaint, then use Settings › Advanced to uninstall from inside the app." >&2
+    echo "⚠ MacBar removed, but its fan helper is still registered with the system." >&2
+    echo "  Reinstall MacBar, then use Settings › Advanced to uninstall from inside the app." >&2
 fi
 if (( sleep_stuck )); then
-    echo "⚠ Vorssaint removed, but this Mac still has sleep switched off." >&2
+    echo "⚠ MacBar removed, but this Mac still has sleep switched off." >&2
     echo "  Closed-lid mode disabled it, and restoring it needed a password this script could not ask for." >&2
     echo "  Put it back with: sudo pmset disablesleep 0" >&2
 fi
 if (( sleep_unknown )); then
-    echo "⚠ Vorssaint removed, but whether sleep came back could not be read." >&2
+    echo "⚠ MacBar removed, but whether sleep came back could not be read." >&2
     echo "  Closed-lid mode had switched it off. Check with: pmset -g | grep SleepDisabled" >&2
     echo "  If that reads 1, put it back with: sudo pmset disablesleep 0" >&2
 fi
 if (( spaces_stuck )); then
-    echo "⚠ Vorssaint removed, but Spaces are still kept in a fixed order." >&2
+    echo "⚠ MacBar removed, but Spaces are still kept in a fixed order." >&2
     echo "  Fixed Space order had turned rearranging off, and it was not put back." >&2
     echo "  Turn it back on in System Settings › Desktop & Dock with" >&2
     echo "  \"Automatically rearrange Spaces based on most recent use\"." >&2
 fi
 if (( spaces_unloaded )); then
-    echo "⚠ Vorssaint removed, but the Dock still keeps Spaces in a fixed order." >&2
+    echo "⚠ MacBar removed, but the Dock still keeps Spaces in a fixed order." >&2
     echo "  Space rearranging was put back on, and the Dock reads it when it restarts." >&2
     echo "  Log out and back in to finish." >&2
 fi
 if (( spaces_unknown )); then
-    print -u2 "Vorssaint removed, but whether Space rearranging was restored could not be confirmed."
+    print -u2 "MacBar removed, but whether Space rearranging was restored could not be confirmed."
     print -u2 "Check Automatically rearrange Spaces based on most recent use in System Settings."
 fi
 exit 1

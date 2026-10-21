@@ -316,6 +316,8 @@ enum DefaultsKey {
     static let panelUtilityCleaner = "panelUtilityCleaner"
     static let panelUtilityHomebrew = "panelUtilityHomebrew"
     static let homebrewGroupDependencies = "homebrewGroupDependencies"
+    /// Homebrew updates this Mac cannot build (Intel, outdated Xcode): package id -> version offered.
+    static let homebrewBlockedUpdates = "homebrewBlockedUpdates"
     static let panelUtilityAppUpdates = "panelUtilityAppUpdates"
     static let appUpdatesCheckFrequency = "appUpdatesCheckFrequency"  // off | daily | weekly
     static let appUpdatesIncludeHomebrewApps = "appUpdatesIncludeHomebrewApps"

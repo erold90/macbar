@@ -46,6 +46,7 @@ Per-app volume, a real system monitor, a better app switcher, window snapping, D
 - **Reads Intel temperature sensors** (`TC…` / `TG…` SMC keys), which the upstream monitor did not look for.
 - **New name, icon and bundle identifiers** (`com.erold90.macbar`), as the upstream trademark policy requires for forks.
 - **No upstream services.** Screenshot/recording share links used the upstream maintainer's server; here they are disabled (`share.invalid`) and upload nothing. "Send feedback" opens this repository's GitHub issue forms. Donation, Discord and social buttons are hidden.
+- **Homebrew manager that understands Intel.** Homebrew no longer builds packages for Intel Macs, so updates that need a source build fail with "Xcode is too outdated". MacBar recognises that error, stops offering that update (and leaves it out of "Upgrade all"), and labels every update **Recommended** (security-sensitive: TLS, certificates, git, SSH/GPG, browsers) or **Optional**.
 - **No implicit keychain changes.** `build.sh` signs ad-hoc unless you run `Tools/setup-signing.sh` yourself.
 
 ## What was tested

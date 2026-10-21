@@ -418,6 +418,8 @@ extension Strings {
         homebrewNotInstalledBadge: "Не встановлено",
         homebrewUpdates: "Оновлення",
         homebrewUpdateAvailableBadge: "Доступне оновлення",
+        homebrewUpdateRecommendedBadge: "Рекомендовано",
+        homebrewUpdateOptionalBadge: "Необов’язково",
         homebrewLatestVersion: "Найновіша",
         homebrewConfirmInstallTitle: "Встановити через Homebrew?",
         homebrewConfirmInstallBodyFormat: "Homebrew завантажить та встановить %@. Залежності також можуть бути встановлені.",

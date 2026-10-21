@@ -433,6 +433,8 @@ extension Strings {
         homebrewNotInstalledBadge: "Не установлено",
         homebrewUpdates: "Обновления",
         homebrewUpdateAvailableBadge: "Доступно обновление",
+        homebrewUpdateRecommendedBadge: "Рекомендуется",
+        homebrewUpdateOptionalBadge: "Необязательно",
         homebrewLatestVersion: "Последняя",
         homebrewConfirmInstallTitle: "Установить через Homebrew?",
         homebrewConfirmInstallBodyFormat: "Homebrew загрузит и установит %@. Также могут быть установлены зависимости.",

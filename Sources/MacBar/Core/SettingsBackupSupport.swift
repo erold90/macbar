@@ -106,6 +106,8 @@ enum SettingsBackupSupport {
         // never settings to bring to another one.
         DefaultsKey.notchAgentsCodexProfiles,
         DefaultsKey.dockPreviewRestoreAutohide,
+        // Which Homebrew updates this Mac cannot build is a fact about this Mac.
+        DefaultsKey.homebrewBlockedUpdates,
         // The Space arrangement setting to put back, and a Dock restart still
         // owed, belong to this Mac's Dock.
         DefaultsKey.spacesOrderRestore,

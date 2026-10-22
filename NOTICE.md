@@ -21,9 +21,10 @@ or an official build of Vorssaint.
    is uploaded anywhere. The feedback form is replaced by this repository's GitHub issue forms.
    Donation, Discord and social links to the upstream maintainer were removed.
 4. **Homebrew on Intel.** The Homebrew manager recognises the "Xcode is too outdated" failure that Intel Macs get now that Homebrew builds no bottles for them, hides such updates (they return when a newer version is released) and tags updates as Recommended or Optional.
-5. **No implicit keychain changes.** `build.sh` no longer creates a signing keychain by itself;
+5. **Keep Awake panel.** A battery limit that takes any percentage from 1 to 95, shown in the panel as well as in Settings; the start-on-launch option sits with the automations; layout and wording fixes.
+6. **No implicit keychain changes.** `build.sh` no longer creates a signing keychain by itself;
    run `Tools/setup-signing.sh` if you want a stable local signing identity.
-6. Release automation (`.github/workflows`, funding file, code owners, promo video) was removed.
+7. Release automation (`.github/workflows`, funding file, code owners, promo video) was removed.
 
 Agent pricing data (`Resources/agent-prices.json`) is still refreshed from the upstream
 repository's public raw file; that request carries no user data.

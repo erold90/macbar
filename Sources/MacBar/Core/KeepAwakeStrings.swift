@@ -88,7 +88,7 @@ extension FeatureStrings {
 
 extension KeepAwakeDisplaySleepStrings {
     static let enUS = KeepAwakeDisplaySleepStrings(
-        allowDisplaySleep: "Allow the display to sleep",
+        allowDisplaySleep: "Let the display turn off",
         allowDisplaySleepCaption: "Keeps the Mac awake while the display follows its normal sleep timer."
     )
 
@@ -128,7 +128,7 @@ extension KeepAwakeDisplaySleepStrings {
     )
 
     static let it = KeepAwakeDisplaySleepStrings(
-        allowDisplaySleep: "Consenti lo spegnimento dello schermo",
+        allowDisplaySleep: "Lascia spegnere lo schermo",
         allowDisplaySleepCaption: "Mantiene attivo il Mac mentre lo schermo segue il normale timer di stop."
     )
 

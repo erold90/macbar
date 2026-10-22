@@ -2581,7 +2581,7 @@ extension Strings {
 
         sessionSection: "Session",
         defaultDurationLabel: "Default duration",
-        keepAwakeAutoStart: "Keep Awake when MacBar opens",
+        keepAwakeAutoStart: "Start when MacBar opens",
         keepAwakeAutoStartCaption: "Starts a session with the default duration.",
         batteryProtectionSection: "Battery protection",
         batteryDisableBelow: "Disable when battery drops below",

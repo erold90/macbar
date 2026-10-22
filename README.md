@@ -47,6 +47,7 @@ Per-app volume, a real system monitor, a better app switcher, window snapping, D
 - **New name, icon and bundle identifiers** (`com.erold90.macbar`), as the upstream trademark policy requires for forks.
 - **No upstream services.** Screenshot/recording share links used the upstream maintainer's server; here they are disabled (`share.invalid`) and upload nothing. "Send feedback" opens this repository's GitHub issue forms. Donation, Discord and social buttons are hidden.
 - **Homebrew manager that understands Intel.** Homebrew no longer builds packages for Intel Macs, so updates that need a source build fail with "Xcode is too outdated". MacBar recognises that error, stops offering that update (and leaves it out of "Upgrade all"), and labels every update **Recommended** (security-sensitive: TLS, certificates, git, SSH/GPG, browsers) or **Optional**.
+- **Keep Awake: battery limit you can type.** The panel and Settings take any percentage from 1 to 95 (the original offered 5, 10, 15 or 20 in Settings only); on battery, a session ends when the level drops to it. "Start when MacBar opens" moved into the Automation group, the automation tiles no longer break words, and a few labels read clearer in Italian and English.
 - **No implicit keychain changes.** `build.sh` signs ad-hoc unless you run `Tools/setup-signing.sh` yourself.
 
 ## What was tested

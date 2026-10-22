@@ -2441,8 +2441,16 @@ enum Defaults {
         allowedDurations.contains(minutes) ? minutes : 0
     }
 
+    /// 0 switches the limit off; otherwise any whole percent up to `maxBatteryLimit`.
+    static let maxBatteryLimit = 95
+
     static func sanitizedBatteryLimit(_ percent: Int) -> Int {
-        allowedBatteryLimits.contains(percent) ? percent : 10
+        (0...maxBatteryLimit).contains(percent) ? percent : 10
+    }
+
+    /// A typed value pulled into 1...`maxBatteryLimit` (the limit is on while editing it).
+    static func clampedBatteryLimit(_ percent: Int) -> Int {
+        min(maxBatteryLimit, max(1, percent))
     }
 
     static func sanitizedKeepAwakeMouseJiggleInterval(_ minutes: Int) -> Int {

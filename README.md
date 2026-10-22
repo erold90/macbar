@@ -60,19 +60,36 @@ Built and tested on an **Intel MacBook Pro (Core i7-8850H) with macOS 15.8.1**, 
 
 **Not tested:** the remaining features, in particular those that need Microphone, Camera or Full Disk Access, the Dynamic Island on a notchless Mac, the privileged fan-control helper, per-app audio routing, Bluetooth, display brightness, clipboard history, snippets, the shelf, the colour picker, the URL cleaner and the cleaner/uninstaller. Treat those as unverified on Intel. Per-core CPU grouping is an Apple-Silicon-only code path and stays empty on Intel.
 
-## Install (build from source)
+## Install
 
-You need macOS 14 or newer and the Xcode Command Line Tools.
+You need an Intel Mac on macOS 14 or newer.
+
+### From a release (checked download)
 
 ```sh
 git clone https://github.com/erold90/macbar.git
 cd macbar
+./Tools/install.sh
+```
+
+The installer finds the newest release, downloads the zip and its `.sha256`, **refuses to install if the checksum or the code signature do not match**, replaces the app in `/Applications` and clears the download quarantine flag. Nothing from the download is executed. Read [`Tools/install.sh`](Tools/install.sh) first if you like: it is short. Options: `--version v3.4.2-beta.2`, `--dest ~/Applications`, `--stable-signing`.
+
+### From source
+
+You also need the Xcode Command Line Tools.
+
+```sh
 DEVELOPER_DIR=/Library/Developer/CommandLineTools ./build.sh --install
 ```
 
-That builds `MacBar.app`, signs it ad-hoc and puts it in `/Applications`. Gatekeeper will not know the developer, so open it once with right-click → Open. Because the signature is ad-hoc, macOS asks for Accessibility and Screen Recording again after every rebuild; `./Tools/setup-signing.sh` creates a stable local identity (it adds its own keychain to your search list — read it first).
+### First launch and permissions
 
-There are no prebuilt binaries.
+The app is not notarized, so macOS shows an "unverified developer" prompt: right-click `MacBar.app` → **Open** once.
+
+Releases are signed ad hoc, which gives every build a different signature. Two things follow:
+
+- **After every update macOS forgets Accessibility and Screen Recording.** The switch in System Settings can look on, yet the entry belongs to the previous copy. MacBar says so ("Already on in that list?"): press **Start over** and grant it again.
+- **To keep the permissions across updates**, install with `./Tools/install.sh --stable-signing`. It creates a free local signing identity once (in its own keychain, see [`Tools/setup-signing.sh`](Tools/setup-signing.sh)) and re-signs your copy with it. Use the same option for every update. It only changes the signature of the copy on your Mac; it is not notarization.
 
 ## Uninstall
 
